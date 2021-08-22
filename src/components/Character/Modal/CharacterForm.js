@@ -11,15 +11,24 @@ import {
 
 import { servers } from '../../../common/common';
 
-const CharacterForm = ({ onOpen, selectClass }) => {
+const CharacterForm = (props) => {
+  const {
+    onOpen,
+    onChangeServer,
+    selectClass,
+    onChangeName,
+    onChangeLevel,
+    onChangeItemLevel,
+  } = props;
+
   return (
     <>
-      <FormControl mb={4}>
+      <FormControl mb={4} isRequired>
         <FormLabel>서버</FormLabel>
         <Select
           focusBorderColor="green.500"
           placeholder="서버를 선택해주세요."
-          isRequired
+          onChange={(option) => onChangeServer(option)}
         >
           {servers.map((server) => (
             <option key={server.value} value={server.value}>
@@ -29,7 +38,7 @@ const CharacterForm = ({ onOpen, selectClass }) => {
         </Select>
       </FormControl>
 
-      <FormControl mb={4}>
+      <FormControl mb={4} isRequired>
         <FormLabel>클래스</FormLabel>
         <Input
           focusBorderColor="green.500"
@@ -37,20 +46,19 @@ const CharacterForm = ({ onOpen, selectClass }) => {
           onClick={onOpen}
           value={selectClass}
           isReadOnly
-          isRequired
         />
       </FormControl>
 
-      <FormControl mb={4}>
+      <FormControl mb={4} isRequired>
         <FormLabel>캐릭터 이름</FormLabel>
         <Input
           focusBorderColor="green.500"
           placeholder="캐릭터 이름"
-          isRequired
+          onChange={onChangeName}
         />
       </FormControl>
 
-      <FormControl mb={4}>
+      <FormControl mb={4} isRequired>
         <FormLabel>캐릭터 레벨</FormLabel>
         <InputGroup>
           <InputLeftAddon children="Lv." />
@@ -58,18 +66,18 @@ const CharacterForm = ({ onOpen, selectClass }) => {
             type="number"
             focusBorderColor="green.500"
             placeholder="캐릭터 레벨"
-            isRequired
+            onChange={onChangeLevel}
           />
         </InputGroup>
       </FormControl>
 
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel>아이템 레벨</FormLabel>
         <Input
           type="number"
           focusBorderColor="green.500"
           placeholder="아이템 레벨"
-          isRequired
+          onChange={onChangeItemLevel}
         />
       </FormControl>
     </>

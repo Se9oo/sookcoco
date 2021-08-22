@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -14,13 +14,25 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import useInput from '../../../hooks/useInput';
 import CharacterForm from './CharacterForm';
 import CharacterSelectModal from './CharacterSelectModal';
 
 const CharacterAddModal = ({ open, close }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [server, onChangeServer] = useInput('');
   const [selectClass, setSelectClass] = useState('');
+  const [name, onChangeName] = useInput('');
+  const [level, onChangeLevel] = useInput('');
+  const [itemLevel, onChangeItemLevel] = useInput('');
+
+  // modal이 다시 열리면 selectClass 초기화
+  useEffect(() => {
+    if (selectClass) {
+      setSelectClass('');
+    }
+  }, [open]);
 
   return (
     <>
@@ -41,7 +53,14 @@ const CharacterAddModal = ({ open, close }) => {
           <ModalCloseButton />
 
           <ModalBody pb={3}>
-            <CharacterForm onOpen={onOpen} selectClass={selectClass} />
+            <CharacterForm
+              onOpen={onOpen}
+              onChangeServer={onChangeServer}
+              selectClass={selectClass}
+              onChangeName={onChangeName}
+              onChangeLevel={onChangeLevel}
+              onChangeItemLevel={onChangeItemLevel}
+            />
           </ModalBody>
 
           <ModalFooter>
