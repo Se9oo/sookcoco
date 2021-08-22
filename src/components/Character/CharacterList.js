@@ -6,18 +6,16 @@ import {
   Button,
   Spacer,
   useBreakpointValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import CharacterCard from './CharacterCard';
+import CharacterAddModal from './Modal/CharacterAddModal';
 
 const CharacterList = () => {
-  const fontSize = useBreakpointValue({
-    xxs: 'xs',
-    xs: 'xs',
-    sm: 'md',
-  });
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const buttonSize = useBreakpointValue({
+  const size = useBreakpointValue({
     xxs: 'xs',
     xs: 'xs',
     sm: 'md',
@@ -26,17 +24,18 @@ const CharacterList = () => {
   return (
     <>
       <Flex alignItems="center" p="5px" mb="10px">
-        <Heading as="h2" size={fontSize}>
+        <Heading as="h2" size={size}>
           캐릭터 목록
         </Heading>
         <Spacer />
         <Button
           colorScheme="green"
           boxShadow="sm"
-          size={buttonSize}
-          fontSize={fontSize}
+          size={size}
+          fontSize={size}
+          onClick={onOpen}
         >
-          캐릭터 등록
+          캐릭터 추가
         </Button>
       </Flex>
       <Flex
@@ -60,6 +59,7 @@ const CharacterList = () => {
         <CharacterCard />
         <CharacterCard />
         <CharacterCard />
+        <CharacterAddModal open={isOpen} close={onClose} />
       </Flex>
     </>
   );

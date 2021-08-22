@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { characters } from '../../common/characters';
+import { characters } from '../../common/common';
 
 import {
   Spacer,
@@ -8,12 +8,13 @@ import {
   Center,
   Avatar,
   Badge,
+  Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { SettingsIcon } from '@chakra-ui/icons';
 
 const CharacterCard = () => {
-  const avatarSize = useBreakpointValue({
+  const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
     sm: 'md',
@@ -33,13 +34,13 @@ const CharacterCard = () => {
       cursor="pointer"
     >
       <Avatar
-        size={avatarSize}
-        name={characters.magician.sorceress.name}
-        src={characters.magician.sorceress.src}
+        size={size}
+        name={characters[3][3].kor}
+        src={characters[3][3].src}
         mr="10px"
       />
       <Flex flexDirection="column">
-        <strong>소서리스</strong>
+        <Text fontSize={size}>소서리스</Text>
         <Flex>
           <Center mr="10px">
             <Badge>아만</Badge>
