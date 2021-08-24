@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Flex,
@@ -14,12 +14,20 @@ import CharacterAddModal from './Modal/CharacterAddModal';
 
 const CharacterList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [characterList, setCharacterList] = useState([]);
 
   const size = useBreakpointValue({
     xxs: 'xs',
     xs: 'xs',
     sm: 'md',
   });
+
+  useEffect(() => {
+    const obj = JSON.parse(window.localStorage.getItem('sookcoco'));
+    if (obj !== null && obj.hasOwnProperty('characters')) {
+      setCharacterList(obj.characters);
+    }
+  }, [characterList.join()]);
 
   return (
     <>
@@ -56,10 +64,25 @@ const CharacterList = () => {
         }}
         mb="20px"
       >
-        <CharacterCard />
-        <CharacterCard />
-        <CharacterCard />
-        <CharacterAddModal open={isOpen} close={onClose} />
+        {characterList.map((character, idx) => {
+          const { name, server, level, itemLevel, selectClass } = character;
+
+          return (
+            <CharacterCard
+              key={`${name}_${idx}`}
+              name={name}
+              server={server}
+              level={level}
+              itemLevel={itemLevel}
+              selectClass={selectClass}
+            />
+          );
+        })}
+        <CharacterAddModal
+          open={isOpen}
+          close={onClose}
+          setCharacterList={setCharacterList}
+        />
       </Flex>
     </>
   );
