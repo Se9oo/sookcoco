@@ -1,12 +1,12 @@
 export const servers = [
-  { name: '루페온', value: 'lupeon' },
-  { name: '실리안', value: 'cilian' },
-  { name: '아만', value: 'aman' },
-  { name: '카마인', value: 'carmine' },
-  { name: '카제로스', value: 'caseros' },
-  { name: '아브렐슈드', value: 'abrelschud' },
-  { name: '카단', value: 'cardan' },
-  { name: '니나브', value: 'ninav' },
+  { kor: '루페온', eng: 'lupeon' },
+  { kor: '실리안', eng: 'cilian' },
+  { kor: '아만', eng: 'aman' },
+  { kor: '카마인', eng: 'carmine' },
+  { kor: '카제로스', eng: 'caseros' },
+  { kor: '아브렐슈드', eng: 'abrelschud' },
+  { kor: '카단', eng: 'cardan' },
+  { kor: '니나브', eng: 'ninav' },
 ];
 
 export const characters = [

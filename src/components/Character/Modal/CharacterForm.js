@@ -31,8 +31,8 @@ const CharacterForm = (props) => {
           onChange={(option) => onChangeServer(option)}
         >
           {servers.map((server) => (
-            <option key={server.value} value={server.value}>
-              {server.name}
+            <option key={server.eng} value={server.eng}>
+              {server.kor}
             </option>
           ))}
         </Select>
