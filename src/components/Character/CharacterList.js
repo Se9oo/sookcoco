@@ -11,6 +11,7 @@ import {
   Center,
   Image,
   Text,
+  Grid,
 } from '@chakra-ui/react';
 
 import CharacterCard from './CharacterCard';
@@ -24,6 +25,14 @@ const CharacterList = () => {
     xxs: 'xs',
     xs: 'xs',
     sm: 'md',
+  });
+
+  const templates = useBreakpointValue({
+    xxs: '1fr',
+    xs: '1fr',
+    sm: '1fr',
+    md: 'repeat(3, 1fr)',
+    lg: 'repeat(3, 1fr)',
   });
 
   useEffect(() => {
@@ -50,11 +59,12 @@ const CharacterList = () => {
           캐릭터 추가
         </Button>
       </Flex>
-      <Flex
+      <Grid
         w="100%"
         h="20vh"
         p="5px"
-        flexDirection="column"
+        templateColumns={templates}
+        gap="10px"
         overflow="auto"
         css={{
           '&::-webkit-scrollbar': {
@@ -105,7 +115,7 @@ const CharacterList = () => {
           close={onClose}
           setCharacterList={setCharacterList}
         />
-      </Flex>
+      </Grid>
     </>
   );
 };

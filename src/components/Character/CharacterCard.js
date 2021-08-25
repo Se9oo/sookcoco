@@ -22,22 +22,46 @@ const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
     lg: 'lg',
   });
 
+  const margin = useBreakpointValue({
+    xxs: 0,
+    xs: 0,
+    sm: 0,
+    md: '5px',
+    lg: '5px',
+  });
+
+  const direction = useBreakpointValue({
+    xxs: 'row',
+    xs: 'row',
+    sm: 'row',
+    md: 'column',
+    lg: 'column',
+  });
+
+  const align = useBreakpointValue({
+    xxs: 'none',
+    xs: 'none',
+    sm: 'none',
+    md: 'center',
+    lg: 'center',
+  });
+
   const src = getClassInfoByKor(selectClass)[0]['src'];
   const serverKor = getServerKor(server);
 
   return (
     <Flex
       w="100%"
-      mb="10px"
       p="10px"
       alignItems="center"
       borderRadius="xl"
       bg="white"
       boxShadow="sm"
       cursor="pointer"
+      flexDirection={direction}
     >
       <Avatar size={size} name={name} src={src} mr="10px" />
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" alignItems={align} flexWrap="wrap">
         <Text fontSize={size}>{name}</Text>
         <Flex flexWrap="wrap">
           <Center mr="5px" mb="3px">
@@ -55,7 +79,14 @@ const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
         </Flex>
       </Flex>
       <Spacer />
-      <SettingsIcon width="15px" cursor="pointer" zIndex="999" />
+      <SettingsIcon
+        w="15px"
+        cursor="pointer"
+        zIndex="999"
+        mt={margin}
+        _hover={{ color: 'green' }}
+        _active={{ color: 'green.300' }}
+      />
     </Flex>
   );
 };
