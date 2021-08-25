@@ -15,8 +15,8 @@ export const getClassInfoByKor = (name) => {
 };
 
 // server 이름 kor return
-export const getServerKor = (kor) => {
-  const [info] = servers.filter((server) => server.kor === kor);
+export const getServerKor = (eng) => {
+  const info = servers.filter((server) => server.eng === eng);
 
-  return info.length > 0 ? info.kor : '';
+  return info.length > 0 ? info[0].kor : '';
 };
