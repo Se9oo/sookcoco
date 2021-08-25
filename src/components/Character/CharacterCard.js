@@ -39,17 +39,17 @@ const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
       <Avatar size={size} name={name} src={src} mr="10px" />
       <Flex flexDirection="column">
         <Text fontSize={size}>{name}</Text>
-        <Flex>
-          <Center mr="10px">
+        <Flex flexWrap="wrap">
+          <Center mr="5px" mb="3px">
             <Badge>{selectClass}</Badge>
           </Center>
-          <Center mr="10px">
+          <Center mr="5px" mb="3px">
             <Badge>{serverKor}</Badge>
           </Center>
-          <Center mr="10px">
+          <Center mr="5px" mb="3px">
             <Badge>{`Lv.${level}`}</Badge>
           </Center>
-          <Center mr="10px">
+          <Center mb="3px">
             <Badge>{itemLevel}</Badge>
           </Center>
         </Flex>
