@@ -7,6 +7,10 @@ import {
   Spacer,
   useBreakpointValue,
   useDisclosure,
+  Box,
+  Center,
+  Image,
+  Text,
 } from '@chakra-ui/react';
 
 import CharacterCard from './CharacterCard';
@@ -48,7 +52,7 @@ const CharacterList = () => {
       </Flex>
       <Flex
         w="100%"
-        h="20%"
+        h="20vh"
         p="5px"
         flexDirection="column"
         overflow="auto"
@@ -64,20 +68,38 @@ const CharacterList = () => {
         }}
         mb="20px"
       >
-        {characterList.map((character, idx) => {
-          const { name, server, level, itemLevel, selectClass } = character;
+        {characterList.length === 0 ? (
+          <Box borderRadius="lg" p="8%" bgColor="white">
+            <Center>
+              <Flex alignItems="center">
+                <Image
+                  w={'24px'}
+                  mr="3px"
+                  src="/sookcoco-logo.png"
+                  alt="sookcoco-logo"
+                />
+                <Text pt="3px" color={'rgba(0,0,0,0.4)'}>
+                  캐릭터를 추가해주세요!
+                </Text>
+              </Flex>
+            </Center>
+          </Box>
+        ) : (
+          characterList.map((character, idx) => {
+            const { name, server, level, itemLevel, selectClass } = character;
 
-          return (
-            <CharacterCard
-              key={`${name}_${idx}`}
-              name={name}
-              server={server}
-              level={level}
-              itemLevel={itemLevel}
-              selectClass={selectClass}
-            />
-          );
-        })}
+            return (
+              <CharacterCard
+                key={`${name}_${idx}`}
+                name={name}
+                server={server}
+                level={level}
+                itemLevel={itemLevel}
+                selectClass={selectClass}
+              />
+            );
+          })
+        )}
         <CharacterAddModal
           open={isOpen}
           close={onClose}
