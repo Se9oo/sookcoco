@@ -8,10 +8,12 @@ import {
   Badge,
   Text,
   useBreakpointValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { SettingsIcon } from '@chakra-ui/icons';
 
 import { getClassInfoByKor, getServerKor } from '../../common/util';
+import CharacterAddModal from './Modal/CharacterAddModal';
 
 const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
   const size = useBreakpointValue({
@@ -48,6 +50,9 @@ const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
 
   const src = getClassInfoByKor(selectClass)[0]['src'];
   const serverKor = getServerKor(server);
+
+  // 캐릭터 수정,삭제 모달 제어
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -86,6 +91,19 @@ const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
         mt={margin}
         _hover={{ color: 'green' }}
         _active={{ color: 'green.300' }}
+        onClick={onOpen}
+      />
+      <CharacterAddModal
+        open={isOpen}
+        close={onClose}
+        mode="update"
+        characterInfo={{
+          server,
+          name,
+          selectClass,
+          level,
+          itemLevel,
+        }}
       />
     </Flex>
   );

@@ -19,14 +19,30 @@ import CharacterForm from './CharacterForm';
 import CharacterSelectModal from './CharacterSelectModal';
 import Alert from '../../Alert';
 
-const CharacterAddModal = ({ open, close, setCharacterList }) => {
+const CharacterAddModal = ({
+  open,
+  close,
+  setCharacterList,
+  mode = '',
+  characterInfo,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [server, onChangeServer] = useInput('');
-  const [selectClass, setSelectClass] = useState('');
-  const [name, onChangeName] = useInput('');
-  const [level, onChangeLevel] = useInput('');
-  const [itemLevel, onChangeItemLevel] = useInput('');
+  const [server, onChangeServer] = useInput(
+    mode === 'update' && characterInfo ? characterInfo.server : ''
+  );
+  const [selectClass, setSelectClass] = useState(
+    mode === 'update' && characterInfo ? characterInfo.selectClass : ''
+  );
+  const [name, onChangeName] = useInput(
+    mode === 'update' && characterInfo ? characterInfo.name : ''
+  );
+  const [level, onChangeLevel] = useInput(
+    mode === 'update' && characterInfo ? characterInfo.level : ''
+  );
+  const [itemLevel, onChangeItemLevel] = useInput(
+    mode === 'update' && characterInfo ? characterInfo.itemLevel : ''
+  );
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
@@ -34,7 +50,7 @@ const CharacterAddModal = ({ open, close, setCharacterList }) => {
 
   // modal이 다시 열리면 selectClass 초기화
   useEffect(() => {
-    if (selectClass) {
+    if (selectClass && mode === '') {
       setSelectClass('');
     }
   }, [open]);
@@ -49,11 +65,15 @@ const CharacterAddModal = ({ open, close, setCharacterList }) => {
     }
 
     const data = { server, selectClass, name, level, itemLevel };
+    // 키 값 default
+    data.characterKey = 0;
 
     if (!window.localStorage.getItem('sookcoco')) {
       const userObj = {
         characters: [data],
       };
+
+      userObj.characters[0].characterKey = 0;
 
       window.localStorage.setItem('sookcoco', JSON.stringify(userObj));
       setCharacterList([data]);
@@ -61,6 +81,7 @@ const CharacterAddModal = ({ open, close, setCharacterList }) => {
       const obj = JSON.parse(window.localStorage.getItem('sookcoco'));
 
       if (obj !== null && obj.hasOwnProperty('characters')) {
+        data.characterKey = obj.characters.length;
         obj.characters.push(data);
       } else {
         obj.characters = [{ data }];
@@ -71,6 +92,11 @@ const CharacterAddModal = ({ open, close, setCharacterList }) => {
     }
 
     close();
+  };
+
+  // 캐릭터 수정
+  const onClickUpdateBtn = () => {
+    console.log(server, selectClass, name, level, itemLevel);
   };
 
   return (
@@ -86,7 +112,7 @@ const CharacterAddModal = ({ open, close, setCharacterList }) => {
                 src="/sookcoco-logo.png"
                 alt="sookcoco-logo"
               />
-              캐릭터 추가
+              캐릭터 {mode === 'update' ? '수정 / 삭제' : '추가'}
             </Flex>
           </ModalHeader>
           <ModalCloseButton />
@@ -99,13 +125,26 @@ const CharacterAddModal = ({ open, close, setCharacterList }) => {
               onChangeName={onChangeName}
               onChangeLevel={onChangeLevel}
               onChangeItemLevel={onChangeItemLevel}
+              characterInfo={characterInfo}
+              mode={mode}
             />
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="green" mr="5px" onClick={onClickAddBtn}>
-              추가
-            </Button>
+            {mode === 'update' ? (
+              <>
+                <Button colorScheme="red" mr="5px">
+                  삭제
+                </Button>
+                <Button colorScheme="green" mr="5px" onClick={onClickUpdateBtn}>
+                  수정
+                </Button>
+              </>
+            ) : (
+              <Button colorScheme="green" mr="5px" onClick={onClickAddBtn}>
+                추가
+              </Button>
+            )}
             <Button onClick={close}>취소</Button>
           </ModalFooter>
         </ModalContent>
