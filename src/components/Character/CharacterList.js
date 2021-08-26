@@ -63,7 +63,11 @@ const CharacterList = () => {
         w="100%"
         h="20vh"
         p="5px"
-        templateColumns={templates}
+        templateColumns={
+          characterList.length < 3
+            ? `repeat(${characterList.length}, 1fr)`
+            : templates
+        }
         gap="10px"
         overflow="auto"
         css={{
