@@ -32,7 +32,7 @@ const CharacterForm = (props) => {
           placeholder="서버를 선택해주세요."
           onChange={(option) => onChangeServer(option)}
           disabled={mode === 'update' ? true : false}
-          value={characterInfo ? characterInfo.server : ''}
+          defaultValue={characterInfo ? characterInfo.server : ''}
         >
           {servers.map((server) => (
             <option key={server.eng} value={server.eng}>

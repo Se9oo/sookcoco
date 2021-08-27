@@ -96,7 +96,58 @@ const CharacterAddModal = ({
 
   // 캐릭터 수정
   const onClickUpdateBtn = () => {
-    console.log(server, selectClass, name, level, itemLevel);
+    if (!server || !selectClass || !name || !level || !itemLevel) {
+      setAlertMsg('입력 값을 확인해주세요!');
+      setAlertKind('Error');
+      setAlertOpen(true);
+      return;
+    }
+
+    const orgStorage = JSON.parse(
+      window.localStorage.getItem('sookcoco')
+    ).characters;
+
+    const updateStorage = orgStorage.map((data) => {
+      if (data.characterKey === characterInfo.characterKey) {
+        data.name = name;
+        data.level = level;
+        data.itemLevel = itemLevel;
+      }
+      return data;
+    });
+
+    const newStorage = {
+      characters: updateStorage,
+    };
+
+    window.localStorage.setItem('sookcoco', JSON.stringify(newStorage));
+
+    setCharacterList([...updateStorage]);
+
+    close();
+  };
+
+  // 캐릭터 삭제
+  const onClickDeleteBtn = () => {
+    const orgStorage = JSON.parse(
+      window.localStorage.getItem('sookcoco')
+    ).characters;
+
+    const deleteIdx = orgStorage.findIndex(
+      (data) => data.characterKey === characterInfo.characterKey
+    );
+
+    orgStorage.splice(deleteIdx, 1);
+
+    const newStorage = {
+      characters: orgStorage,
+    };
+
+    window.localStorage.setItem('sookcoco', JSON.stringify(newStorage));
+
+    setCharacterList([...orgStorage]);
+
+    close();
   };
 
   return (
@@ -133,7 +184,7 @@ const CharacterAddModal = ({
           <ModalFooter>
             {mode === 'update' ? (
               <>
-                <Button colorScheme="red" mr="5px">
+                <Button colorScheme="red" mr="5px" onClick={onClickDeleteBtn}>
                   삭제
                 </Button>
                 <Button colorScheme="green" mr="5px" onClick={onClickUpdateBtn}>

@@ -100,16 +100,25 @@ const CharacterList = () => {
           </Box>
         ) : (
           characterList.map((character, idx) => {
-            const { name, server, level, itemLevel, selectClass } = character;
+            const {
+              characterKey,
+              name,
+              server,
+              level,
+              itemLevel,
+              selectClass,
+            } = character;
 
             return (
               <CharacterCard
                 key={`${name}_${idx}`}
+                characterKey={characterKey}
                 name={name}
                 server={server}
                 level={level}
                 itemLevel={itemLevel}
                 selectClass={selectClass}
+                setCharacterList={setCharacterList}
               />
             );
           })

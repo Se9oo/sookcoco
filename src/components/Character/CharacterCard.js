@@ -15,7 +15,15 @@ import { SettingsIcon } from '@chakra-ui/icons';
 import { getClassInfoByKor, getServerKor } from '../../common/util';
 import CharacterAddModal from './Modal/CharacterAddModal';
 
-const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
+const CharacterCard = ({
+  characterKey,
+  name,
+  selectClass,
+  server,
+  level,
+  itemLevel,
+  setCharacterList,
+}) => {
   const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
@@ -98,12 +106,14 @@ const CharacterCard = ({ name, selectClass, server, level, itemLevel }) => {
         close={onClose}
         mode="update"
         characterInfo={{
+          characterKey,
           server,
           name,
           selectClass,
           level,
           itemLevel,
         }}
+        setCharacterList={setCharacterList}
       />
     </Flex>
   );
