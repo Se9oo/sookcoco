@@ -127,3 +127,63 @@ export const characters = [
     },
   ],
 ];
+
+export const schedule = {
+  daily: [
+    {
+      key: 'chaos',
+      kor: '카오스 던전',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/17012ef4ba7d431daa0884121bb2d912.png',
+    },
+    {
+      key: 'guardian',
+      kor: '가디언 토벌',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/af2a2116f60441389eaa8a8db3624f26.png',
+    },
+    {
+      key: 'epona',
+      kor: '에포나 의뢰',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/af2a2116f60441389eaa8a8db3624f26.png',
+    },
+    {
+      key: 'adventure',
+      kor: '모험섬',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/f9a83e3dcea640118b47ae6e8d8a1370.png',
+    },
+    {
+      key: 'boss',
+      kor: '필드 보스',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/379ca84cd8094b66a51af11eafbf84d1.png',
+    },
+    {
+      key: 'seaVoyage',
+      kor: '항해 협동',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/e02005b3beac427690c3f97360bad562.png',
+    },
+    {
+      key: 'chaosGate',
+      kor: '카오스 게이트',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/91dcab783f024124b71c67d21a849298.png',
+    },
+  ],
+  weekly: [
+    {
+      key: 'weeklyEpona',
+      kor: '주간 에포나 의뢰',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/4cc6f903b4a74cd7bd232b89298d6c3d.png',
+    },
+    { key: 'challengeGuardian', kor: '도전 가디언 토벌' },
+    { key: 'Abyss', kor: '어비스 던전' },
+    { key: 'argos', kor: '아르고스' },
+    { key: 'baltan', kor: '발탄' },
+    { key: 'viacis', kor: '비아키스' },
+    { key: 'cooxayton', kor: '쿠크세이튼' },
+    { key: 'abrelschud', kor: '아브렐슈드' },
+  ],
+  expedition: [
+    { key: 'challengeAbyss', kor: '도전 어비스 던전' },
+    { key: 'rehearsal', kor: '리허설' },
+    { key: 'dejavu', kor: '데자뷰' },
+    { key: 'phantom', kor: '유령선' },
+  ],
+};
