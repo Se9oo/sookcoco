@@ -14,11 +14,11 @@ const ScheduleSettingTabs = () => {
         <Tab>주간</Tab>
         <Tab>원정대</Tab>
       </TabList>
-      <TabPanels>
+      <TabPanels h="100%">
         {mode.map((md) => {
           return (
-            <TabPanel key={md}>
-              <ScheduleSettingForm mode={md} />
+            <TabPanel key={md} h="100%" p="10px">
+              <ScheduleSettingForm mode={md} h="100%" />
             </TabPanel>
           );
         })}

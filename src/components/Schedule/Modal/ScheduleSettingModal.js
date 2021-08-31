@@ -33,7 +33,7 @@ const ScheduleSettingModal = ({ open, close }) => {
         </ModalHeader>
         <ModalCloseButton />
 
-        <ModalBody>
+        <ModalBody pl="10px" pr="10px">
           <ScheduleSettingTabs />
         </ModalBody>
 
