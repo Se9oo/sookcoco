@@ -143,7 +143,7 @@ export const schedule = {
     {
       key: 'epona',
       kor: '에포나 의뢰',
-      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/af2a2116f60441389eaa8a8db3624f26.png',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/4cc6f903b4a74cd7bd232b89298d6c3d.png',
     },
     {
       key: 'adventure',
@@ -172,18 +172,47 @@ export const schedule = {
       kor: '주간 에포나 의뢰',
       src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/4cc6f903b4a74cd7bd232b89298d6c3d.png',
     },
-    { key: 'challengeGuardian', kor: '도전 가디언 토벌' },
-    { key: 'Abyss', kor: '어비스 던전' },
-    { key: 'argos', kor: '아르고스' },
-    { key: 'baltan', kor: '발탄' },
-    { key: 'viacis', kor: '비아키스' },
-    { key: 'cooxayton', kor: '쿠크세이튼' },
-    { key: 'abrelschud', kor: '아브렐슈드' },
+    {
+      key: 'challengeGuardian',
+      kor: '도전 가디언 토벌',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/af2a2116f60441389eaa8a8db3624f26.png',
+    },
+    {
+      key: 'Abyss',
+      kor: '어비스 던전',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/a8d7c95daca24df0a33f561136de379a.png',
+    },
+    {
+      key: 'guild',
+      kor: '길드 의뢰',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/75e60d5ac25a4577ab0f9efe6b9544f3.png',
+    },
+    {
+      key: 'argos',
+      kor: '아르고스',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/8a845a8afd6347acb7ec1d468435419a.png',
+    },
+    { key: 'baltan', kor: '발탄', src: '/assets/icon/baltan.png' },
+    { key: 'viacis', kor: '비아키스', src: '/assets/icon/viacis.png' },
+    { key: 'cooxayton', kor: '쿠크세이튼', src: '/assets/icon/cooxayton.png' },
+    {
+      key: 'abrelschud',
+      kor: '아브렐슈드',
+      src: '/assets/icon/abrelschud.png',
+    },
   ],
   expedition: [
-    { key: 'challengeAbyss', kor: '도전 어비스 던전' },
-    { key: 'rehearsal', kor: '리허설' },
-    { key: 'dejavu', kor: '데자뷰' },
-    { key: 'phantom', kor: '유령선' },
+    {
+      key: 'challengeAbyss',
+      kor: '도전 어비스 던전',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/a8d7c95daca24df0a33f561136de379a.png',
+    },
+    { key: 'rehearsal', kor: '리허설', src: '/assets/icon/cooxayton.png' },
+    { key: 'dejavu', kor: '데자뷰', src: '/assets/icon/abrelschud.png' },
+    {
+      key: 'phantom',
+      kor: '유령선',
+      src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/68b76b3910b54b3e9a490391753a7ad9.png',
+    },
   ],
 };
