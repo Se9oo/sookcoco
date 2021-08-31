@@ -35,6 +35,7 @@ const colors = {
     300: '#68D391',
     500: '#38A169',
   },
+  lime: '#94d82d',
 };
 
 export const theme = extendTheme({
