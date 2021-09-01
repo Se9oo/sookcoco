@@ -21,7 +21,11 @@ const ScheduleSettingForm = ({ mode }) => {
     lg: 'lg',
   });
 
+  // 사용자가 추가한 커스텀 컨텐츠 리스트
+  const [customList, setCustomList] = useState([]);
+  // 고정 컨텐츠 리스트
   const [contentList, setContentList] = useState([]);
+  // 추가하는 컨텐츠 info state
   const [customContent, setCustomContent] = useState();
   const onChangeCustomConetent = (e) => {
     setCustomContent(e.target.value);
@@ -47,23 +51,42 @@ const ScheduleSettingForm = ({ mode }) => {
   const onClickAddContent = () => {
     if (customContent === '' || !customContent) return;
 
-    const list = [...contentList];
-    list.push({ key: 'random', kor: customContent, custom: 'y' });
+    const indexArr = customList.map((item) => item.idx);
+    const max = indexArr.length === 0 ? 0 : Math.max(...indexArr) + 1;
+
+    const data = {
+      key: `custom${max}`,
+      kor: customContent,
+      custom: 'y',
+      idx: max,
+    };
+
+    const list = [...contentList, data];
+    const customContentList = [...customList, data];
 
     setCustomContent('');
     setContentList(list);
+    setCustomList(customContentList);
   };
 
   // 커스텀 컨텐츠 삭제
   const onClickDeleteContent = useCallback(
     (key) => () => {
       const deleteIdx = contentList.findIndex((content) => content.key === key);
+      const deleteCustomIdx = customList.findIndex(
+        (custom) => custom.key === key
+      );
+
       const list = [...contentList];
       list.splice(deleteIdx, 1);
 
+      const customContentList = [...customList];
+      customContentList.splice(deleteCustomIdx, 1);
+
       setContentList(list);
+      setCustomList(customContentList);
     },
-    [contentList]
+    [contentList, customList]
   );
 
   return (
