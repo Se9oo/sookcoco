@@ -38,8 +38,14 @@ const CharacterList = () => {
     xxs: '1fr',
     xs: '1fr',
     sm: '1fr',
-    md: 'repeat(3, 1fr)',
-    lg: 'repeat(3, 1fr)',
+    md:
+      characterList.length < 3
+        ? `repeat(${characterList.length}, 1fr)`
+        : 'repeat(3, 1fr)',
+    lg:
+      characterList.length < 3
+        ? `repeat(${characterList.length}, 1fr)`
+        : 'repeat(3, 1fr)',
   });
 
   useEffect(() => {
@@ -83,11 +89,7 @@ const CharacterList = () => {
         w="100%"
         h="20vh"
         p="5px"
-        templateColumns={
-          characterList.length < 3
-            ? `repeat(${characterList.length}, 1fr)`
-            : templates
-        }
+        templateColumns={templates}
         gap="10px"
         overflow="auto"
         css={{
@@ -145,7 +147,11 @@ const CharacterList = () => {
             );
           })
         )}
-        <ScheduleSettingModal open={scheduleIsOpen} close={scheduleOnClose} />
+        <ScheduleSettingModal
+          characterKey={selectCharacter}
+          open={scheduleIsOpen}
+          close={scheduleOnClose}
+        />
         <CharacterAddModal
           open={isOpen}
           close={onClose}

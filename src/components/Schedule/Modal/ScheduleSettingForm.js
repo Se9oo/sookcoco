@@ -1,18 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import {
-  Button,
-  Flex,
-  Grid,
-  Input,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Button, Flex, Input, useBreakpointValue } from '@chakra-ui/react';
 
 import { schedule } from '../../../common/common';
 
 import ScheduleItems from './ScheduleItems';
 
-const ScheduleSettingForm = ({ mode }) => {
+const ScheduleSettingForm = ({ mode, onClickScheduleItems }) => {
   const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
@@ -26,7 +20,7 @@ const ScheduleSettingForm = ({ mode }) => {
   // 고정 컨텐츠 리스트
   const [contentList, setContentList] = useState([]);
   // 추가하는 컨텐츠 info state
-  const [customContent, setCustomContent] = useState();
+  const [customContent, setCustomContent] = useState('');
   const onChangeCustomConetent = (e) => {
     setCustomContent(e.target.value);
   };
@@ -85,8 +79,10 @@ const ScheduleSettingForm = ({ mode }) => {
 
       setContentList(list);
       setCustomList(customContentList);
+      // 최종 컨텐츠 set에서도 제거
+      onClickScheduleItems(key, false, {}, mode);
     },
-    [contentList, customList]
+    [contentList, customList, onClickScheduleItems, mode]
   );
 
   return (
@@ -114,6 +110,8 @@ const ScheduleSettingForm = ({ mode }) => {
               key={schedule.key}
               schedule={schedule}
               onClickDeleteContent={onClickDeleteContent}
+              onClickScheduleItems={onClickScheduleItems}
+              mode={mode}
             />
           );
         })}

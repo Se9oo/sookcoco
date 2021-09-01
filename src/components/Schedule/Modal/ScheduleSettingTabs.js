@@ -4,7 +4,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 import ScheduleSettingForm from './ScheduleSettingForm';
 
-const ScheduleSettingTabs = () => {
+const ScheduleSettingTabs = ({ onClickScheduleItems }) => {
   const mode = ['daily', 'weekly', 'expedition'];
 
   return (
@@ -18,7 +18,11 @@ const ScheduleSettingTabs = () => {
         {mode.map((md) => {
           return (
             <TabPanel key={md} h="100%" p="10px">
-              <ScheduleSettingForm mode={md} h="100%" />
+              <ScheduleSettingForm
+                h="100%"
+                mode={md}
+                onClickScheduleItems={onClickScheduleItems}
+              />
             </TabPanel>
           );
         })}

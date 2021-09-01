@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Flex, Text } from '@chakra-ui/layout';
 import { Avatar, Checkbox, useBreakpointValue } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
-const ScheduleItems = ({ schedule, onClickDeleteContent }) => {
+const ScheduleItems = ({
+  schedule,
+  onClickDeleteContent,
+  onClickScheduleItems,
+  mode,
+}) => {
   const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
@@ -12,6 +17,12 @@ const ScheduleItems = ({ schedule, onClickDeleteContent }) => {
     md: 'md',
     lg: 'md',
   });
+
+  const [checked, setChecked] = useState(false);
+  const onChangeChecked = (e) => {
+    setChecked(!checked);
+    onClickScheduleItems(schedule.key, e.target.checked, schedule, mode);
+  };
 
   return (
     <label>
@@ -42,7 +53,12 @@ const ScheduleItems = ({ schedule, onClickDeleteContent }) => {
               onClick={onClickDeleteContent(schedule.key)}
             />
           ) : null}
-          <Checkbox colorScheme="green" mr="10px" ml="10px" />
+          <Checkbox
+            colorScheme="green"
+            mr="10px"
+            ml="10px"
+            onChange={onChangeChecked}
+          />
         </Flex>
       </Flex>
     </label>
