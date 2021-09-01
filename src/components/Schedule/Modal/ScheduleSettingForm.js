@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
   Button,
@@ -43,15 +43,28 @@ const ScheduleSettingForm = ({ mode }) => {
     }
   }, []);
 
+  // 커스텀 컨텐츠 추가
   const onClickAddContent = () => {
     if (customContent === '' || !customContent) return;
 
     const list = [...contentList];
-    list.push({ key: 'random', kor: customContent });
+    list.push({ key: 'random', kor: customContent, custom: 'y' });
 
     setCustomContent('');
     setContentList(list);
   };
+
+  // 커스텀 컨텐츠 삭제
+  const onClickDeleteContent = useCallback(
+    (key) => () => {
+      const deleteIdx = contentList.findIndex((content) => content.key === key);
+      const list = [...contentList];
+      list.splice(deleteIdx, 1);
+
+      setContentList(list);
+    },
+    [contentList]
+  );
 
   return (
     <>
@@ -73,7 +86,13 @@ const ScheduleSettingForm = ({ mode }) => {
         }}
       >
         {contentList.map((schedule) => {
-          return <ScheduleItems key={schedule.key} schedule={schedule} />;
+          return (
+            <ScheduleItems
+              key={schedule.key}
+              schedule={schedule}
+              onClickDeleteContent={onClickDeleteContent}
+            />
+          );
         })}
       </Flex>
       <Flex w="100%" justifyContent="space-between" alignItems="center">

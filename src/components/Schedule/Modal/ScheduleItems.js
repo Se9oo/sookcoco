@@ -2,8 +2,9 @@ import React from 'react';
 
 import { Flex, Text } from '@chakra-ui/layout';
 import { Avatar, Checkbox, useBreakpointValue } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 
-const ScheduleItems = ({ schedule }) => {
+const ScheduleItems = ({ schedule, onClickDeleteContent }) => {
   const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
@@ -31,7 +32,18 @@ const ScheduleItems = ({ schedule }) => {
             {schedule.kor}
           </Text>
         </Flex>
-        <Checkbox colorScheme="green" mr="10px" />
+        <Flex>
+          {schedule.hasOwnProperty('custom') ? (
+            <DeleteIcon
+              color="red.500"
+              zIndex="9999"
+              cursor="pointer"
+              _hover={{ color: 'red.300' }}
+              onClick={onClickDeleteContent(schedule.key)}
+            />
+          ) : null}
+          <Checkbox colorScheme="green" mr="10px" ml="10px" />
+        </Flex>
       </Flex>
     </label>
   );
