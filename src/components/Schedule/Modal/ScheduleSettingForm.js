@@ -6,7 +6,7 @@ import { schedule } from '../../../common/common';
 
 import ScheduleItems from './ScheduleItems';
 
-const ScheduleSettingForm = ({ mode, onClickScheduleItems }) => {
+const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
   const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
@@ -25,20 +25,37 @@ const ScheduleSettingForm = ({ mode, onClickScheduleItems }) => {
     setCustomContent(e.target.value);
   };
 
+  // 초기 컨텐츠 리스트 세팅
   useEffect(() => {
-    switch (mode) {
-      case 'daily':
-        setContentList(schedule.daily);
-        break;
-      case 'weekly':
-        setContentList(schedule.weekly);
-        break;
-      case 'expedition':
-        setContentList(schedule.expedition);
-        break;
-      default:
-        break;
+    let customItems = [];
+
+    if (checkedList.length > 0) {
+      customItems = checkedList.filter((checked) =>
+        checked.hasOwnProperty('custom')
+      );
+
+      if (customItems.length > 0) {
+        setCustomList(customItems);
+      }
     }
+
+    const deepCopySchedule = JSON.parse(JSON.stringify(schedule[`${mode}`]));
+
+    // 고정 컨텐츠 리스트
+    const scheduleList =
+      customItems.length === 0
+        ? deepCopySchedule
+        : [...deepCopySchedule, ...customItems];
+
+    const checkedKeyList = checkedList.map((checked) => checked.key);
+
+    scheduleList.map((sch) => {
+      if (checkedKeyList.includes(sch.key)) {
+        sch.checked = true;
+      }
+    });
+
+    setContentList(scheduleList);
   }, []);
 
   // 커스텀 컨텐츠 추가
@@ -104,11 +121,11 @@ const ScheduleSettingForm = ({ mode, onClickScheduleItems }) => {
           },
         }}
       >
-        {contentList.map((schedule) => {
+        {contentList.map((content) => {
           return (
             <ScheduleItems
-              key={schedule.key}
-              schedule={schedule}
+              key={content.key}
+              schedule={content}
               onClickDeleteContent={onClickDeleteContent}
               onClickScheduleItems={onClickScheduleItems}
               mode={mode}

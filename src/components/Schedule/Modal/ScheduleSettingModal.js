@@ -24,8 +24,26 @@ const ScheduleSettingModal = ({ open, close, characterKey }) => {
   });
 
   useEffect(() => {
-    setCheckedList({ daily: [], weekly: [], expedition: [] });
-  }, []);
+    const data = JSON.parse(window.localStorage.getItem('sookcoco'));
+
+    if (data) {
+      const idx = data.characters.findIndex(
+        (character) => character.characterKey === characterKey
+      );
+
+      if (idx === -1) {
+        setCheckedList({ daily: [], weekly: [], expedition: [] });
+        return;
+      }
+
+      // 로컬스토리지에 데이터가 있는 경우 불러옴
+      if (data.characters[idx].hasOwnProperty('schedule')) {
+        setCheckedList(data.characters[idx].schedule);
+      } else {
+        setCheckedList({ daily: [], weekly: [], expedition: [] });
+      }
+    }
+  }, [characterKey]);
 
   // 컨텐츠 체크박스 체크 change event
   const onClickScheduleItems = (key, isChecked, schedule, mode) => {
@@ -39,17 +57,20 @@ const ScheduleSettingModal = ({ open, close, characterKey }) => {
 
     if (isChecked) {
       if (idx === -1) {
+        schedule.checked = true;
         newCheckedList[`${mode}`].push(schedule);
         setCheckedList(newCheckedList);
       }
     } else {
       if (idx >= 0) {
+        schedule.checked = false;
         newCheckedList[`${mode}`].splice(idx, 1);
         setCheckedList(newCheckedList);
       }
     }
   };
 
+  // 컨텐츠 저장
   const onClickSaveBtn = () => {
     const data = JSON.parse(window.localStorage.getItem('sookcoco'));
 
@@ -87,7 +108,10 @@ const ScheduleSettingModal = ({ open, close, characterKey }) => {
         <ModalCloseButton />
 
         <ModalBody pl="10px" pr="10px">
-          <ScheduleSettingTabs onClickScheduleItems={onClickScheduleItems} />
+          <ScheduleSettingTabs
+            checkedList={checkedList}
+            onClickScheduleItems={onClickScheduleItems}
+          />
         </ModalBody>
 
         <ModalFooter>

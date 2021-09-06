@@ -18,7 +18,7 @@ const ScheduleItems = ({
     lg: 'md',
   });
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(schedule.checked || false);
   const onChangeChecked = (e) => {
     setChecked(!checked);
     onClickScheduleItems(schedule.key, e.target.checked, schedule, mode);
@@ -57,6 +57,7 @@ const ScheduleItems = ({
             colorScheme="green"
             mr="10px"
             ml="10px"
+            isChecked={checked}
             onChange={onChangeChecked}
           />
         </Flex>
