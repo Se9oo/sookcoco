@@ -18,7 +18,11 @@ import CharacterCard from './CharacterCard';
 import CharacterAddModal from './Modal/CharacterAddModal';
 import ScheduleSettingModal from '../Schedule/Modal/ScheduleSettingModal';
 
-const CharacterList = () => {
+const CharacterList = ({
+  selectCharacter,
+  setSelectCharacter,
+  setSchedule,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: scheduleIsOpen,
@@ -26,7 +30,6 @@ const CharacterList = () => {
     onClose: scheduleOnClose,
   } = useDisclosure();
   const [characterList, setCharacterList] = useState([]);
-  const [selectCharacter, setSelectCharacter] = useState('');
 
   const size = useBreakpointValue({
     xxs: 'xs',
@@ -62,7 +65,7 @@ const CharacterList = () => {
           캐릭터 목록
         </Heading>
         <Spacer />
-        {selectCharacter !== '' ? (
+        {selectCharacter > -1 ? (
           <Button
             bg="#94d82d"
             color="white"
@@ -151,6 +154,7 @@ const CharacterList = () => {
           characterKey={selectCharacter}
           open={scheduleIsOpen}
           close={scheduleOnClose}
+          setSchedule={setSchedule}
         />
         <CharacterAddModal
           open={isOpen}

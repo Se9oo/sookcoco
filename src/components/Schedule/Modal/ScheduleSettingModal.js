@@ -15,7 +15,7 @@ import {
 
 import ScheduleSettingTabs from './ScheduleSettingTabs';
 
-const ScheduleSettingModal = ({ open, close, characterKey }) => {
+const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
   // 일일, 주간, 원정대 체크한 컨텐츠
   const [checkedList, setCheckedList] = useState({
     daily: [],
@@ -86,6 +86,8 @@ const ScheduleSettingModal = ({ open, close, characterKey }) => {
       'sookcoco',
       JSON.stringify({ characters: newData })
     );
+
+    setSchedule(checkedList);
     // modal close
     close();
   };

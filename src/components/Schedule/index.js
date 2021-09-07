@@ -1,19 +1,35 @@
 import React from 'react';
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import ScheduleList from './ScheduleList';
 
-const Schedule = () => {
+const Schedule = ({ schedule }) => {
+  const mode = ['daily', 'weekly', 'expedition'];
+
   return (
-    <Tabs isFitted variant="enclosed" bg="white">
+    <Tabs
+      h="55vh"
+      isFitted
+      variant="enclosed"
+      bg="white"
+      colorScheme="green"
+      boxShadow="sm"
+    >
       <TabList>
         <Tab>일일</Tab>
         <Tab>주간</Tab>
         <Tab>원정대</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel>일일!</TabPanel>
-        <TabPanel>주간!</TabPanel>
-        <TabPanel>원정대!</TabPanel>
+        {schedule &&
+          mode.map((md) => {
+            return (
+              <TabPanel key={`${md}`}>
+                <ScheduleList schedule={schedule[`${md}`]} />
+              </TabPanel>
+            );
+          })}
+        ;
       </TabPanels>
     </Tabs>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ChakraProvider, Box } from '@chakra-ui/react';
 
@@ -10,6 +10,29 @@ import CharacterList from './components/Character/CharacterList';
 import Schedule from './components/Schedule';
 
 const Sookcoco = () => {
+  const [selectCharacter, setSelectCharacter] = useState(-1);
+  const [schedule, setSchedule] = useState({
+    daily: [],
+    weekly: [],
+    expedition: [],
+  });
+
+  useEffect(() => {
+    const data = JSON.parse(window.localStorage.getItem('sookcoco'));
+
+    if (selectCharacter > -1 && data) {
+      const idx = data.characters.findIndex(
+        (character) => character.characterKey === selectCharacter
+      );
+
+      if (idx > -1) {
+        setSchedule(data.characters[idx].schedule);
+      } else {
+        setSchedule({ daily: [], weekly: [], expedition: [] });
+      }
+    }
+  }, [selectCharacter]);
+
   return (
     <>
       <ChakraProvider theme={theme} resetCSS>
@@ -23,8 +46,12 @@ const Sookcoco = () => {
           p="5px"
         >
           <Header />
-          <CharacterList />
-          <Schedule />
+          <CharacterList
+            selectCharacter={selectCharacter}
+            setSelectCharacter={setSelectCharacter}
+            setSchedule={setSchedule}
+          />
+          <Schedule selectCharacter={selectCharacter} schedule={schedule} />
         </Box>
       </ChakraProvider>
     </>
