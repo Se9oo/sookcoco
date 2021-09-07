@@ -74,12 +74,11 @@ const CharacterCard = ({
       p="10px"
       alignItems="center"
       borderRadius="xl"
-      bg="white"
-      boxShadow="sm"
+      bg={selectCharacter === characterKey ? 'rgba(148, 216, 45, .5)' : 'white'}
+      boxShadow={selectCharacter === characterKey ? 'none' : 'base'}
       cursor="pointer"
       flexDirection={direction}
       onClick={onClickCharacterCard}
-      border={selectCharacter === characterKey ? '2px solid #94d82d' : 'none'}
     >
       <Avatar size={size} name={name} src={src} mr="10px" />
       <Flex flexDirection="column" alignItems={align} flexWrap="wrap">
