@@ -9,10 +9,25 @@ const ScheduleSettingTabs = ({ checkedList, onClickScheduleItems }) => {
 
   return (
     <Tabs h="65vh" colorScheme="green" isFitted variant="enclosed" bg="white">
-      <TabList>
-        <Tab>일일</Tab>
-        <Tab>주간</Tab>
-        <Tab>원정대</Tab>
+      <TabList borderBottom="none">
+        <Tab
+          _selected={{ color: 'white', bg: 'lime' }}
+          _focus={{ outline: 'none' }}
+        >
+          일일
+        </Tab>
+        <Tab
+          _selected={{ color: 'white', bg: 'lime' }}
+          _focus={{ outline: 'none' }}
+        >
+          주간
+        </Tab>
+        <Tab
+          _selected={{ color: 'white', bg: 'lime' }}
+          _focus={{ outline: 'none' }}
+        >
+          원정대
+        </Tab>
       </TabList>
       <TabPanels h="100%">
         {mode.map((md) => {

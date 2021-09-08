@@ -1,37 +1,89 @@
 import React from 'react';
 
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Heading,
+} from '@chakra-ui/react';
+import { useBreakpointValue } from '@chakra-ui/media-query';
+
 import ScheduleList from './ScheduleList';
 
 const Schedule = ({ schedule }) => {
   const mode = ['daily', 'weekly', 'expedition'];
 
+  const size = useBreakpointValue({
+    xxs: 'sm',
+    xs: 'sm',
+    sm: 'md',
+    md: 'lg',
+    lg: 'lg',
+  });
+
+  const headingSize = useBreakpointValue({
+    xxs: 'xs',
+    xs: 'xs',
+    sm: 'md',
+  });
+
   return (
-    <Tabs
-      h="55vh"
-      isFitted
-      variant="enclosed"
-      bg="white"
-      colorScheme="green"
-      boxShadow="sm"
-    >
-      <TabList>
-        <Tab>일일</Tab>
-        <Tab>주간</Tab>
-        <Tab>원정대</Tab>
-      </TabList>
-      <TabPanels>
-        {schedule &&
-          mode.map((md) => {
-            return (
-              <TabPanel key={`${md}`}>
-                <ScheduleList schedule={schedule[`${md}`]} />
-              </TabPanel>
-            );
-          })}
-        ;
-      </TabPanels>
-    </Tabs>
+    <>
+      <Heading p="5px" mb="10px" as="h2" size={headingSize}>
+        스케줄
+      </Heading>
+      <Tabs isFitted variant="enclosed" bg="white" p="5px">
+        <TabList borderBottom="none" mb="3px">
+          <Tab
+            _selected={{ color: 'white', bg: 'lime' }}
+            _focus={{ outline: 'none' }}
+            fontSize={size}
+          >
+            일일
+          </Tab>
+          <Tab
+            _selected={{ color: 'white', bg: 'lime' }}
+            _focus={{ outline: 'none' }}
+            fontSize={size}
+          >
+            주간
+          </Tab>
+          <Tab
+            _selected={{ color: 'white', bg: 'lime' }}
+            _focus={{ outline: 'none' }}
+            fontSize={size}
+          >
+            원정대
+          </Tab>
+        </TabList>
+        <TabPanels
+          h="50vh"
+          overflow="auto"
+          css={{
+            '&::-webkit-scrollbar': {
+              width: '4px',
+              borderRadius: '99px',
+              backgroundColor: `rgba(0, 0, 0, 0.05)`,
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: `rgba(0, 0, 0, 0.05)`,
+            },
+          }}
+        >
+          {schedule &&
+            mode.map((md) => {
+              return (
+                <TabPanel key={`${md}`} p="10px">
+                  <ScheduleList schedule={schedule[`${md}`]} />
+                </TabPanel>
+              );
+            })}
+          ;
+        </TabPanels>
+      </Tabs>
+    </>
   );
 };
 
