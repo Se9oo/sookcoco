@@ -54,7 +54,7 @@ export const theme = extendTheme({
         fontSize: '16px',
       },
       body: {
-        backgroundColor: 'gray.50',
+        backgroundColor: 'white',
       },
       'body, input, a, ol, ul, li, button': {
         fontFamily: `Apple SD Gothic','Noto Sans KR','맑은고딕','Nanum Gothic','sans-serif`,

@@ -91,7 +91,7 @@ const CharacterList = ({
       <Grid
         w="100%"
         h="20vh"
-        p="5px"
+        p="10px"
         templateColumns={templates}
         gap="10px"
         overflow="auto"
@@ -105,7 +105,7 @@ const CharacterList = ({
             backgroundColor: `rgba(0, 0, 0, 0.05)`,
           },
         }}
-        mb="20px"
+        mb="10px"
       >
         {characterList.length === 0 ? (
           <Box borderRadius="lg" p="8%" bgColor="white">
