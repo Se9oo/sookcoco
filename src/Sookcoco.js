@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { ChakraProvider, Box } from '@chakra-ui/react';
+import { ChakraProvider, Box, Divider } from '@chakra-ui/react';
 
 import { theme } from './common/theme';
 import Fonts from './common/fonts';
@@ -51,6 +51,7 @@ const Sookcoco = () => {
             setSelectCharacter={setSelectCharacter}
             setSchedule={setSchedule}
           />
+          <Divider m="10px 0" />
           <Schedule selectCharacter={selectCharacter} schedule={schedule} />
         </Box>
       </ChakraProvider>
