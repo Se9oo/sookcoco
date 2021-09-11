@@ -5,7 +5,7 @@ import { useBreakpointValue } from '@chakra-ui/media-query';
 
 import ScheduleCard from './ScheduleCard';
 
-const ScheduleList = ({ schedule }) => {
+const ScheduleList = ({ selectCharacter, schedule, mode }) => {
   const templates = useBreakpointValue({
     xxs: '1fr',
     xs: '1fr',
@@ -17,7 +17,14 @@ const ScheduleList = ({ schedule }) => {
   return (
     <Grid templateColumns={templates} gap="10px">
       {schedule.map((item) => {
-        return <ScheduleCard key={item.key} item={item} />;
+        return (
+          <ScheduleCard
+            key={item.key}
+            item={item}
+            selectCharacter={selectCharacter}
+            mode={mode}
+          />
+        );
       })}
     </Grid>
   );
