@@ -7,12 +7,17 @@ import {
   TabPanels,
   Tabs,
   Heading,
+  Box,
+  Image,
+  Flex,
+  Center,
+  Text,
 } from '@chakra-ui/react';
 import { useBreakpointValue } from '@chakra-ui/media-query';
 
 import ScheduleList from './ScheduleList';
 
-const Schedule = ({ schedule }) => {
+const Schedule = ({ selectCharacter, schedule }) => {
   const mode = ['daily', 'weekly', 'expedition'];
 
   const size = useBreakpointValue({
@@ -37,6 +42,8 @@ const Schedule = ({ schedule }) => {
       <Tabs isFitted variant="enclosed" bg="white" p="5px">
         <TabList borderBottom="none" mb="3px">
           <Tab
+            bg="gray.50"
+            borderRight="1px solid #e5e5e5"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
             fontSize={size}
@@ -44,6 +51,8 @@ const Schedule = ({ schedule }) => {
             일일
           </Tab>
           <Tab
+            bg="gray.50"
+            borderRight="1px solid #e5e5e5"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
             fontSize={size}
@@ -51,6 +60,7 @@ const Schedule = ({ schedule }) => {
             주간
           </Tab>
           <Tab
+            bg="gray.50"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
             fontSize={size}
@@ -72,15 +82,35 @@ const Schedule = ({ schedule }) => {
             },
           }}
         >
-          {schedule &&
+          {schedule && selectCharacter > -1 ? (
             mode.map((md) => {
               return (
-                <TabPanel key={`${md}`} p="10px">
-                  <ScheduleList schedule={schedule[`${md}`]} />
+                <TabPanel key={`${md}`} p="10px 0">
+                  <ScheduleList
+                    selectCharacter={selectCharacter}
+                    schedule={schedule[`${md}`]}
+                    mode={md}
+                  />
                 </TabPanel>
               );
-            })}
-          ;
+            })
+          ) : (
+            <Box h="100%" borderRadius="lg" p="8%" bgColor="gray.50">
+              <Center>
+                <Flex alignItems="center">
+                  <Image
+                    w={'24px'}
+                    mr="3px"
+                    src="/sookcoco-logo.png"
+                    alt="sookcoco-logo"
+                  />
+                  <Text pt="3px" color={'rgba(0,0,0,0.4)'}>
+                    스케줄을 추가해주세요
+                  </Text>
+                </Flex>
+              </Center>
+            </Box>
+          )}
         </TabPanels>
       </Tabs>
     </>
