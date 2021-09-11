@@ -43,7 +43,7 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
         setCheckedList({ daily: [], weekly: [], expedition: [] });
       }
     }
-  }, [characterKey]);
+  }, [characterKey, open]);
 
   // 컨텐츠 체크박스 체크 change event
   const onClickScheduleItems = (key, isChecked, schedule, mode) => {
