@@ -72,20 +72,15 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
 
   // 컨텐츠 저장
   const onClickSaveBtn = () => {
-    const data = JSON.parse(window.localStorage.getItem('sookcoco'));
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const newData = data.characters.map((character) => {
+    origin.characters.map((character) => {
       if (character.characterKey === characterKey) {
         character['schedule'] = checkedList;
       }
-
-      return character;
     });
 
-    window.localStorage.setItem(
-      'sookcoco',
-      JSON.stringify({ characters: newData })
-    );
+    window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
     setSchedule(checkedList);
     // modal close
