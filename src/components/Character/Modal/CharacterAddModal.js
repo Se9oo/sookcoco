@@ -14,6 +14,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import { schedule as commonSchedule } from '../../../common/common';
+
 import useInput from '../../../hooks/useInput';
 import CharacterForm from './CharacterForm';
 import CharacterSelectModal from './CharacterSelectModal';
@@ -68,9 +70,13 @@ const CharacterAddModal = ({
     // 키 값 default
     data.characterKey = 0;
 
-    if (!window.localStorage.getItem('sookcoco')) {
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
+
+    // sookcoco key가 존재하지 않으면 (첫 캐릭터 생성시)
+    if (!origin) {
       const userObj = {
         characters: [data],
+        expedition: commonSchedule.expedition,
       };
 
       userObj.characters[0].characterKey = 0;
@@ -78,17 +84,15 @@ const CharacterAddModal = ({
       window.localStorage.setItem('sookcoco', JSON.stringify(userObj));
       setCharacterList([data]);
     } else {
-      const obj = JSON.parse(window.localStorage.getItem('sookcoco'));
-
-      if (obj !== null && obj.hasOwnProperty('characters')) {
-        data.characterKey = obj.characters.length;
-        obj.characters.push(data);
+      if (origin !== null && origin.hasOwnProperty('characters')) {
+        data.characterKey = origin.characters.length;
+        origin.characters.push(data);
       } else {
-        obj.characters = [{ data }];
+        origin.characters = [{ data }];
       }
 
-      window.localStorage.setItem('sookcoco', JSON.stringify(obj));
-      setCharacterList([...obj.characters]);
+      window.localStorage.setItem('sookcoco', JSON.stringify(origin));
+      setCharacterList([...origin.characters]);
     }
 
     close();
@@ -103,11 +107,9 @@ const CharacterAddModal = ({
       return;
     }
 
-    const orgStorage = JSON.parse(
-      window.localStorage.getItem('sookcoco')
-    ).characters;
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const updateStorage = orgStorage.map((data) => {
+    const updateStorage = origin.characters.map((data) => {
       if (data.characterKey === characterInfo.characterKey) {
         data.name = name;
         data.level = level;
@@ -116,11 +118,9 @@ const CharacterAddModal = ({
       return data;
     });
 
-    const newStorage = {
-      characters: updateStorage,
-    };
+    origin.characters = updateStorage;
 
-    window.localStorage.setItem('sookcoco', JSON.stringify(newStorage));
+    window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
     setCharacterList([...updateStorage]);
 
@@ -129,23 +129,17 @@ const CharacterAddModal = ({
 
   // 캐릭터 삭제
   const onClickDeleteBtn = () => {
-    const orgStorage = JSON.parse(
-      window.localStorage.getItem('sookcoco')
-    ).characters;
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const deleteIdx = orgStorage.findIndex(
+    const deleteIdx = origin.characters.findIndex(
       (data) => data.characterKey === characterInfo.characterKey
     );
 
-    orgStorage.splice(deleteIdx, 1);
+    origin.characters.splice(deleteIdx, 1);
 
-    const newStorage = {
-      characters: orgStorage,
-    };
+    window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
-    window.localStorage.setItem('sookcoco', JSON.stringify(newStorage));
-
-    setCharacterList([...orgStorage]);
+    setCharacterList([...origin.characters]);
 
     close();
   };

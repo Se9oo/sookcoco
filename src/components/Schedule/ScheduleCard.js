@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Divider, Flex, Text } from '@chakra-ui/layout';
 
@@ -6,7 +6,6 @@ import { useBreakpointValue } from '@chakra-ui/media-query';
 import { Avatar } from '@chakra-ui/avatar';
 import { Button, ButtonGroup } from '@chakra-ui/button';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import { Image } from '@chakra-ui/image';
 
 const ScheduleCard = ({ item, selectCharacter, mode }) => {
   const buttonSize = useBreakpointValue({
@@ -33,10 +32,25 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
 
   const { src, key, kor } = item;
   const [doneCount, setDoneCount] = useState(item.done || 0);
+  const [checkCount, setCheckCount] = useState(item.checkCount || 0);
+
+  useEffect(() => {
+    if (mode === 'expedition') {
+      const data = JSON.parse(window.localStorage.getItem('sookcoco'));
+
+      if (data && data.hasOwnProperty('expedition')) {
+        const expeditionIdx = data.expedition.findIndex(
+          (exp) => exp.key === item.key
+        );
+        setDoneCount(data.expedition[expeditionIdx].done);
+        setCheckCount(data.expedition[expeditionIdx].checkCount);
+      }
+    }
+  }, []);
 
   // 횟수 증가 버튼
   const onClickBtn = (action) => () => {
-    if (action === 'add' && doneCount === item.checkCount) {
+    if (action === 'add' && doneCount === checkCount) {
       return;
     }
 
@@ -47,18 +61,26 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
     const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
     const data = origin.characters;
 
-    data.map((character) => {
-      if (character.characterKey === selectCharacter) {
-        character.schedule[`${mode}`].map((sch) => {
-          if (sch.key === item.key) action === 'add' ? sch.done++ : sch.done--;
-        });
-      }
-    });
+    if (mode === 'expedition') {
+      const expeditionIdx = origin.expedition.findIndex(
+        (exp) => exp.key === item.key
+      );
 
-    window.localStorage.setItem(
-      'sookcoco',
-      JSON.stringify({ characters: data })
-    );
+      action === 'add'
+        ? origin.expedition[expeditionIdx].done++
+        : origin.expedition[expeditionIdx].done--;
+    } else {
+      data.map((character) => {
+        if (character.characterKey === selectCharacter) {
+          character.schedule[`${mode}`].map((sch) => {
+            if (sch.key === item.key)
+              action === 'add' ? sch.done++ : sch.done--;
+          });
+        }
+      });
+    }
+
+    window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
     setDoneCount((prev) => (action === 'add' ? prev + 1 : prev - 1));
   };
@@ -89,7 +111,7 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
         <Flex>
           <Text fontSize={size}>{doneCount}</Text>
           <span>/</span>
-          <Text fontSize={size}>{item.checkCount}</Text>
+          <Text fontSize={size}>{checkCount}</Text>
         </Flex>
       </Flex>
       <Divider mb="10px" />
