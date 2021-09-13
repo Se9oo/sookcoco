@@ -47,30 +47,32 @@ const Sookcoco = () => {
     if (parseInt(lastConnect) <= parseInt(standard)) {
       const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-      origin.characters.map((character) => {
-        if (character.hasOwnProperty('schedule')) {
-          schedule.daily.length > 0 &&
-            schedule.daily.map((day) => {
-              day.done = 0;
-            });
-
-          if (now.getDay() === 3) {
-            schedule.weekly.length > 0 &&
-              schedule.weekly.map((week) => {
-                week.done = 0;
+      if (origin) {
+        origin.characters.map((character) => {
+          if (character.hasOwnProperty('schedule')) {
+            schedule.daily.length > 0 &&
+              schedule.daily.map((day) => {
+                day.done = 0;
               });
+
+            if (now.getDay() === 3) {
+              schedule.weekly.length > 0 &&
+                schedule.weekly.map((week) => {
+                  week.done = 0;
+                });
+            }
           }
-        }
-      });
-
-      if (now.getDay() === 3 && origin.expedition.length > 0) {
-        origin.expedition.map((exp) => {
-          exp.done = 0;
         });
-      }
 
-      window.localStorage.setItem('sookcoco', JSON.stringify(origin));
-      window.localStorage.setItem('lastConnect', JSON.stringify(today));
+        if (now.getDay() === 3 && origin.expedition.length > 0) {
+          origin.expedition.map((exp) => {
+            exp.done = 0;
+          });
+        }
+
+        window.localStorage.setItem('sookcoco', JSON.stringify(origin));
+        window.localStorage.setItem('lastConnect', JSON.stringify(today));
+      }
     }
   }, []);
 
