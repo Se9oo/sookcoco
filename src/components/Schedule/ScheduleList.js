@@ -17,7 +17,7 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
 
   return (
     <>
-      {schedule.length !== 0 ? (
+      {schedule !== undefined && schedule.length !== 0 ? (
         <Grid templateColumns={templates} gap="10px">
           {schedule.map((item) => {
             return (
