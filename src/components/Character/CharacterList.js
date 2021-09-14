@@ -108,21 +108,24 @@ const CharacterList = ({
         mb="10px"
       >
         {characterList.length === 0 ? (
-          <Box borderRadius="lg" p="8%" bgColor="gray.50">
-            <Center>
-              <Flex alignItems="center">
-                <Image
-                  w={'24px'}
-                  mr="3px"
-                  src="/sookcoco-logo.png"
-                  alt="sookcoco-logo"
-                />
-                <Text pt="3px" color={'rgba(0,0,0,0.4)'}>
-                  캐릭터를 추가해주세요!
-                </Text>
-              </Flex>
-            </Center>
-          </Box>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="lg"
+            bgColor="gray.50"
+          >
+            <Flex alignItems="center">
+              <Image
+                w={'24px'}
+                mr="3px"
+                src="/sookcoco-logo.png"
+                alt="sookcoco-logo"
+              />
+              <Text pt="3px" color={'rgba(0,0,0,0.4)'}>
+                캐릭터를 추가해주세요!
+              </Text>
+            </Flex>
+          </Flex>
         ) : (
           characterList.map((character, idx) => {
             const {
