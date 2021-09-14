@@ -31,8 +31,13 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
   });
 
   const { src, key, kor } = item;
-  const [doneCount, setDoneCount] = useState(item.done || 0);
-  const [checkCount, setCheckCount] = useState(item.checkCount || 0);
+  const [doneCount, setDoneCount] = useState(0);
+  const [checkCount, setCheckCount] = useState(0);
+
+  useEffect(() => {
+    setDoneCount(item.done);
+    setCheckCount(item.checkCount);
+  }, [item.done, item.checkCount]);
 
   useEffect(() => {
     if (mode === 'expedition') {
