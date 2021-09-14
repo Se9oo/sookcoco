@@ -108,7 +108,7 @@ const CharacterList = ({
         mb="10px"
       >
         {characterList.length === 0 ? (
-          <Box borderRadius="lg" p="8%" bgColor="white">
+          <Box borderRadius="lg" p="8%" bgColor="gray.50">
             <Center>
               <Flex alignItems="center">
                 <Image
