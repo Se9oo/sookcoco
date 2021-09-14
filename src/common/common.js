@@ -83,6 +83,11 @@ export const characters = [
       eng: 'scouter',
       src: 'https://cdn-lostark.game.onstove.com/2018/obt/assets/images/common/thumb/scouter_m.png',
     },
+    {
+      kor: '건슬링어',
+      eng: 'gunslinger',
+      src: 'https://cdn-lostark.game.onstove.com/2018/obt/assets/images/common/thumb/gunslinger_s.png',
+    },
   ],
 
   // 마법사
