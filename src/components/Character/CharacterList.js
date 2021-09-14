@@ -115,12 +115,7 @@ const CharacterList = ({
             bgColor="gray.50"
           >
             <Flex alignItems="center">
-              <Image
-                w={'24px'}
-                mr="3px"
-                src="/sookcoco-logo.png"
-                alt="sookcoco-logo"
-              />
+              <Image w="24px" mr="3px" src="/sookcoco-logo-mini.png" alt="" />
               <Text pt="3px" color={'rgba(0,0,0,0.4)'}>
                 캐릭터를 추가해주세요!
               </Text>

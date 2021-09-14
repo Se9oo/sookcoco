@@ -34,12 +34,7 @@ const Alert = ({
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             <Flex alignItems="center">
-              <Image
-                w="32px"
-                mr="5px"
-                src="/sookcoco-logo.png"
-                alt="sookcoco-logo"
-              />
+              <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
               <Text pt="5px">{kind}</Text>
             </Flex>
           </AlertDialogHeader>

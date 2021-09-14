@@ -93,12 +93,7 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
       <ModalContent>
         <ModalHeader>
           <Flex>
-            <Image
-              w="32px"
-              mr="5px"
-              src="/sookcoco-logo.png"
-              alt="sookcoco-logo"
-            />
+            <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
             스케줄 설정
           </Flex>
         </ModalHeader>

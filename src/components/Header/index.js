@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <Box w="100%" pt="5px" pb="5px" mb="2">
       <Box w={size} m="0 auto">
-        <Image src="/sookcoco-logo.png" alt="sookcoco-logo" />
+        <Image src="/sookcoco-logo-mini.png" alt="" />
       </Box>
     </Box>
   );

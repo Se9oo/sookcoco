@@ -31,12 +31,7 @@ const CharacterSelectModal = ({ isOpen, onClose, setSelectClass }) => {
       <ModalContent>
         <ModalHeader>
           <Flex alignItems="center">
-            <Image
-              w="32px"
-              mr="5px"
-              src="/sookcoco-logo.png"
-              alt="sookcoco-logo"
-            />
+            <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
             클래스 선택
           </Flex>
         </ModalHeader>

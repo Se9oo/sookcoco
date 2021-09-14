@@ -42,12 +42,7 @@ const CharacterAddModal = ({
         <ModalContent>
           <ModalHeader>
             <Flex alignItems="center">
-              <Image
-                w="32px"
-                mr="5px"
-                src="/sookcoco-logo.png"
-                alt="sookcoco-logo"
-              />
+              <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
               캐릭터 {mode === 'update' ? '수정 / 삭제' : '추가'}
             </Flex>
           </ModalHeader>
