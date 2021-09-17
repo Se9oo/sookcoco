@@ -15,6 +15,7 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
     lg: 'repeat(3, 1fr)',
   });
 
+  const infoMessage = '캐릭터를 선택하고\n스케줄을 추가해 주세요!';
   return (
     <>
       {schedule !== undefined && schedule.length !== 0 ? (
@@ -36,9 +37,14 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
             <Flex alignItems="center">
               <Image w="24px" mr="3px" src="/sookcoco-logo-mini.png" alt="" />
               <Text align="center" pt="3px" color={'rgba(0,0,0,0.4)'}>
-                {selectCharacter < 0 && `캐릭터를 선택하고`}
-                <br />
-                스케줄을 추가해주세요!
+                {infoMessage.split('\n').map((message, idx) => {
+                  return (
+                    <React.Fragment key={idx}>
+                      {message}
+                      <br />
+                    </React.Fragment>
+                  );
+                })}
               </Text>
             </Flex>
           </Center>
