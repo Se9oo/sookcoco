@@ -206,7 +206,7 @@ export const schedule = {
       kor: '도전 가디언 토벌',
       src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/af2a2116f60441389eaa8a8db3624f26.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 3,
       done: 0,
     },
     {
@@ -238,7 +238,7 @@ export const schedule = {
       kor: '발탄',
       src: '/assets/icon/baltan.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 2,
       done: 0,
     },
     {
@@ -246,7 +246,7 @@ export const schedule = {
       kor: '비아키스',
       src: '/assets/icon/viacis.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 3,
       done: 0,
     },
     {
@@ -254,7 +254,7 @@ export const schedule = {
       kor: '쿠크세이튼',
       src: '/assets/icon/cooxayton.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 3,
       done: 0,
     },
     {
@@ -262,7 +262,7 @@ export const schedule = {
       kor: '아브렐슈드',
       src: '/assets/icon/abrelschud.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 6,
       done: 0,
     },
   ],
@@ -280,7 +280,7 @@ export const schedule = {
       kor: '리허설',
       src: '/assets/icon/cooxayton.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 3,
       done: 0,
     },
     {
@@ -288,7 +288,7 @@ export const schedule = {
       kor: '데자뷰',
       src: '/assets/icon/abrelschud.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 4,
       done: 0,
     },
     {
