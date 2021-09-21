@@ -17,8 +17,11 @@ import { WarningTwoIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 const Alert = ({
   isOpen,
   setIsOpen,
+  title,
   message = '',
   buttonText = '닫기',
+  buttonActionText = '확인',
+  onClickAction,
   kind,
 }) => {
   const onClose = () => setIsOpen(false);
@@ -35,24 +38,34 @@ const Alert = ({
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             <Flex alignItems="center">
               <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
-              <Text pt="5px">{kind}</Text>
+              <Text pt="5px">{title}</Text>
             </Flex>
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Flex alignItems="center">
-              {kind === 'Error' ? (
+              {/* {kind === 'Error' ? (
                 <WarningTwoIcon mr="5px" mb="5px" color="red" />
               ) : (
                 <InfoOutlineIcon mr="5px" mb="5px" color="blue.300" />
-              )}
-              {message}
+              )} */}
+              {message.split('\n').map((msg) => {
+                return (
+                  <>
+                    {msg}
+                    <br />
+                  </>
+                );
+              })}
             </Flex>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
+            <Button ref={cancelRef} onClick={onClose} mr="5px">
               {buttonText}
+            </Button>
+            <Button bg="red.500" color="white" onClick={onClickAction}>
+              {buttonActionText}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
