@@ -12,7 +12,6 @@ import {
   Text,
   Image,
 } from '@chakra-ui/react';
-import { WarningTwoIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 
 const Alert = ({
   isOpen,
@@ -22,7 +21,7 @@ const Alert = ({
   buttonText = '닫기',
   buttonActionText = '확인',
   onClickAction,
-  kind,
+  alertMode,
 }) => {
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
@@ -44,29 +43,30 @@ const Alert = ({
 
           <AlertDialogBody>
             <Flex alignItems="center">
-              {/* {kind === 'Error' ? (
-                <WarningTwoIcon mr="5px" mb="5px" color="red" />
-              ) : (
-                <InfoOutlineIcon mr="5px" mb="5px" color="blue.300" />
-              )} */}
-              {message.split('\n').map((msg) => {
+              {message.split('\n').map((msg, idx) => {
                 return (
-                  <>
+                  <React.Fragment key={idx}>
                     {msg}
                     <br />
-                  </>
+                  </React.Fragment>
                 );
               })}
             </Flex>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose} mr="5px">
+            <Button
+              ref={cancelRef}
+              onClick={alertMode === 'load' ? onClickAction : onClose}
+              mr={buttonActionText !== '' ? '5px' : '0'}
+            >
               {buttonText}
             </Button>
-            <Button bg="red.500" color="white" onClick={onClickAction}>
-              {buttonActionText}
-            </Button>
+            {buttonActionText !== '' ? (
+              <Button bg="red.500" color="white" onClick={onClickAction}>
+                {buttonActionText}
+              </Button>
+            ) : null}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
