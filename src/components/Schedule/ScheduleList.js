@@ -15,6 +15,12 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
     lg: 'repeat(3, 1fr)',
   });
 
+  const size = useBreakpointValue({
+    xxs: 'sm',
+    xs: 'sm',
+    sm: 'md',
+  });
+
   const infoMessage = '캐릭터를 선택하고\n스케줄을 추가해 주세요!';
   return (
     <>
@@ -36,7 +42,12 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
           <Center>
             <Flex alignItems="center">
               <Image w="24px" mr="3px" src="/sookcoco-logo-mini.png" alt="" />
-              <Text align="center" pt="3px" color={'rgba(0,0,0,0.4)'}>
+              <Text
+                fontSize={size}
+                align="center"
+                pt="3px"
+                color={'rgba(0,0,0,0.4)'}
+              >
                 {infoMessage.split('\n').map((message, idx) => {
                   return (
                     <React.Fragment key={idx}>
