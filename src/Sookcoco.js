@@ -20,7 +20,7 @@ const Sookcoco = () => {
   useEffect(() => {
     let origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const now = dayjs().format('YYYYMMDDhhmm');
+    const now = dayjs().format('YYYYMMDDHHmm');
     // 로요일과 차이
     const diffDate = 3 - dayjs(now).day();
     let refreshDate;
