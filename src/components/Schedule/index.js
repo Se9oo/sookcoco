@@ -12,6 +12,13 @@ import { useBreakpointValue } from '@chakra-ui/media-query';
 
 import ScheduleList from './ScheduleList';
 
+// props로 받은 schedule이 변한 경우에만 rendering
+const propsCompare = (prevProps, nextProps) => {
+  return (
+    JSON.stringify(prevProps.schedule) === JSON.stringify(nextProps.schedule)
+  );
+};
+
 const Schedule = ({ selectCharacter, schedule }) => {
   const mode = ['daily', 'weekly', 'expedition'];
 
@@ -95,4 +102,4 @@ const Schedule = ({ selectCharacter, schedule }) => {
   );
 };
 
-export default Schedule;
+export default React.memo(Schedule, propsCompare);
