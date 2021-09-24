@@ -48,6 +48,24 @@ const Sookcoco = () => {
       if (!origin.hasOwnProperty('expedition')) {
         origin.expedition = commonSchedule.expedition;
         window.localStorage.setItem('sookcoco', JSON.stringify(origin));
+      } else {
+        // 공통 원정대 컨텐츠가 추가 제거될 경우 update 로직
+        // 커스텀 컨텐츠를 제외한 공통 원정대 컨텐츠
+        const orgExpExceptCustom = origin.expedition.filter(
+          (exp) => exp.custom !== 'y'
+        );
+
+        if (orgExpExceptCustom.length !== commonSchedule.expedition.length) {
+          const customExpContent = origin.expedition.filter(
+            (exp) => exp.custom === 'y'
+          );
+
+          origin.expedition = [
+            ...commonSchedule.expedition,
+            ...customExpContent,
+          ];
+          window.localStorage.setItem('sookcoco', JSON.stringify(origin));
+        }
       }
 
       // 일일 컨텐츠 초기화 날짜 세팅
@@ -64,6 +82,16 @@ const Sookcoco = () => {
               });
           }
         });
+
+        // 원정대-일일 스케줄 초기화
+        if (origin.expedition.length > 0) {
+          origin.expedition.map((exp) => {
+            if (exp.repeat === 'daily') {
+              exp.done = 0;
+            }
+          });
+        }
+
         origin.refreshDate = dayjs(now).add(1, 'day').format('YYYYMMDD0600');
       }
 
@@ -78,10 +106,13 @@ const Sookcoco = () => {
           }
         });
 
+        // 원정대-주간 스케줄 초기화
         if (origin.hasOwnProperty('expedition')) {
           if (origin.expedition.length > 0) {
             origin.expedition.map((exp) => {
-              exp.done = 0;
+              if (exp.repeat === 'week') {
+                exp.done = 0;
+              }
             });
           }
         }
