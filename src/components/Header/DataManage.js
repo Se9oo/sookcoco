@@ -12,11 +12,17 @@ import {
   DrawerBody,
 } from '@chakra-ui/react';
 
-import { CopyIcon, RepeatClockIcon, DeleteIcon } from '@chakra-ui/icons';
+import {
+  CopyIcon,
+  RepeatClockIcon,
+  DeleteIcon,
+  RepeatIcon,
+} from '@chakra-ui/icons';
 
 import Alert from '../Alert';
 import { encrypt, decrypt } from '../../common/crypto';
 import useInput from '../../hooks/useInput';
+import { schedule as commonSchedule } from '../../common/common';
 
 function checkStorageData(data) {
   if (!data || typeof data !== 'object') {
@@ -64,6 +70,7 @@ const DataManage = ({ isOpen, onClose }) => {
   const loadDataFailMessage = '데이터 불러오기 실패';
   const clearDataMessage =
     '초기화 된 데이터는 복구 할 수 없습니다.\n초기화 하시겠습니까?';
+  const updateContentMessage = '컨텐츠를 최신 정보로 반영합니다.\n';
 
   // alert state
   const [alertMode, setAlertMode] = useState('');
@@ -115,6 +122,35 @@ const DataManage = ({ isOpen, onClose }) => {
     window.location.reload();
   };
 
+  // 컨텐츠 업데이트
+  const onClickUpdateContent = () => {
+    setIsAlertOpen(false);
+
+    const origin = window.localStorage.getItem('sookcoco');
+
+    // 기존 스케줄 업데이트
+    origin.characters.map((character) => {
+      if (character.hasOwnProperty('schedule')) {
+        const data = ['daily', 'weekly', 'expedition'];
+
+        data.map((x) => {
+          const orgCustomContent = character.schedule[`${x}`].filter(
+            (sch) => sch.custom === 'y'
+          );
+
+          if (orgCustomContent.length === 0) {
+            character.schedule[`${x}`] = commonSchedule[`${x}`];
+          } else {
+            character.schedule[`${x}`] = [
+              ...commonSchedule[`${x}`],
+              ...orgCustomContent,
+            ];
+          }
+        });
+      }
+    });
+  };
+
   return (
     <>
       <Drawer placement={DrawerDirection} onClose={onClose} isOpen={isOpen}>
@@ -156,6 +192,17 @@ const DataManage = ({ isOpen, onClose }) => {
                 w="100%"
                 size={size}
                 mb="10px"
+                leftIcon={<RepeatIcon />}
+                bg="blue.500"
+                color="white"
+                onClick={() => onAlertOpen('update')}
+              >
+                컨텐츠 업데이트
+              </Button>
+              <Button
+                w="100%"
+                size={size}
+                mb="10px"
                 leftIcon={<DeleteIcon />}
                 bg="red.500"
                 color="white"
@@ -175,6 +222,8 @@ const DataManage = ({ isOpen, onClose }) => {
             ? '데이터 초기화'
             : alertMode === 'backUp'
             ? '데이터 백업'
+            : alertMode === 'update'
+            ? '컨텐츠 업데이트'
             : '데이터 불러오기'
         }
         message={
@@ -184,11 +233,25 @@ const DataManage = ({ isOpen, onClose }) => {
             ? backUpDataMessage
             : alertMode === 'error'
             ? loadDataFailMessage
+            : alertMode === 'update'
+            ? updateContentMessage
             : loadDataMessage
         }
-        buttonActionText={alertMode === 'clear' ? '초기화' : ''}
+        buttonActionText={
+          alertMode === 'clear'
+            ? '초기화'
+            : alertMode === 'update'
+            ? '업데이트'
+            : ''
+        }
         onClickAction={
-          alertMode === 'load' ? onClickDataLoadAction : onClickInitialize
+          alertMode === 'load'
+            ? onClickDataLoadAction
+            : alertMode === 'clear'
+            ? onClickInitialize
+            : alertMode === 'update'
+            ? onClickUpdateContent
+            : null
         }
         alertMode={alertMode}
       />

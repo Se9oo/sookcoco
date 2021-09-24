@@ -63,7 +63,11 @@ const Alert = ({
               {buttonText}
             </Button>
             {buttonActionText !== '' ? (
-              <Button bg="red.500" color="white" onClick={onClickAction}>
+              <Button
+                bg={alertMode === 'clear' ? 'red.500' : 'blue.500'}
+                color="white"
+                onClick={onClickAction}
+              >
                 {buttonActionText}
               </Button>
             ) : null}

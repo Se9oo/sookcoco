@@ -60,10 +60,14 @@ const Sookcoco = () => {
             (exp) => exp.custom === 'y'
           );
 
-          origin.expedition = [
-            ...commonSchedule.expedition,
-            ...customExpContent,
-          ];
+          if (customExpContent.length === 0) {
+            origin.expedition = commonSchedule.expedition;
+          } else {
+            origin.expedition = [
+              ...commonSchedule.expedition,
+              ...customExpContent,
+            ];
+          }
           window.localStorage.setItem('sookcoco', JSON.stringify(origin));
         }
       }
