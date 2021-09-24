@@ -70,7 +70,8 @@ const DataManage = ({ isOpen, onClose }) => {
   const loadDataFailMessage = '데이터 불러오기 실패';
   const clearDataMessage =
     '초기화 된 데이터는 복구 할 수 없습니다.\n초기화 하시겠습니까?';
-  const updateContentMessage = '컨텐츠를 최신 정보로 반영합니다.\n';
+  const updateContentMessage =
+    '컨텐츠를 최신 정보로 반영합니다.\n업데이트를 누르면 페이지가 새로고침 됩니다.';
 
   // alert state
   const [alertMode, setAlertMode] = useState('');
@@ -126,7 +127,7 @@ const DataManage = ({ isOpen, onClose }) => {
   const onClickUpdateContent = () => {
     setIsAlertOpen(false);
 
-    const origin = window.localStorage.getItem('sookcoco');
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
     // 기존 스케줄 업데이트
     origin.characters.map((character) => {
@@ -149,6 +150,10 @@ const DataManage = ({ isOpen, onClose }) => {
         });
       }
     });
+
+    window.localStorage.setItem('sookcoco', JSON.stringify(origin));
+
+    window.location.reload();
   };
 
   return (
