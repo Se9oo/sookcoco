@@ -49,8 +49,11 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
         const expeditionIdx = data.expedition.findIndex(
           (exp) => exp.key === item.key
         );
-        setDoneCount(data.expedition[expeditionIdx].done);
-        setCheckCount(data.expedition[expeditionIdx].checkCount);
+
+        if (expeditionIdx !== -1) {
+          setDoneCount(data.expedition[expeditionIdx].done);
+          setCheckCount(data.expedition[expeditionIdx].checkCount);
+        }
       }
     }
   }, []);
