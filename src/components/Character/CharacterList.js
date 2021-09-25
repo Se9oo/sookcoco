@@ -7,8 +7,6 @@ import {
   Spacer,
   useBreakpointValue,
   useDisclosure,
-  Box,
-  Center,
   Image,
   Text,
   Grid,
@@ -144,6 +142,7 @@ const CharacterList = ({
                 setCharacterList={setCharacterList}
                 selectCharacter={selectCharacter}
                 setSelectCharacter={setSelectCharacter}
+                setSchedule={setSchedule}
               />
             );
           })

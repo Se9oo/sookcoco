@@ -19,8 +19,16 @@ import * as Yup from 'yup';
 import { servers, schedule as commonSchedule } from '../../../common/common';
 
 const CharacterForm = (props) => {
-  const { onOpen, selectClass, characterInfo, setCharacterList, mode, close } =
-    props;
+  const {
+    onOpen,
+    selectClass,
+    characterInfo,
+    setCharacterList,
+    setSelectCharacter,
+    setSchedule,
+    mode,
+    close,
+  } = props;
 
   const [isSelectClassError, setIsSelectClassError] = useState(false);
 
@@ -136,6 +144,12 @@ const CharacterForm = (props) => {
 
     window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
+    setSchedule({
+      daily: [],
+      weekly: [],
+      expedition: [],
+    });
+    setSelectCharacter(-1);
     setCharacterList([...origin.characters]);
 
     close();

@@ -19,6 +19,8 @@ const CharacterAddModal = ({
   open,
   close,
   setCharacterList,
+  setSelectCharacter,
+  setSchedule,
   mode = '',
   characterInfo,
 }) => {
@@ -54,6 +56,8 @@ const CharacterAddModal = ({
               selectClass={selectClass}
               characterInfo={characterInfo}
               setCharacterList={setCharacterList}
+              setSelectCharacter={setSelectCharacter}
+              setSchedule={setSchedule}
               mode={mode}
               close={close}
             />

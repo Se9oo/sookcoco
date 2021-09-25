@@ -25,6 +25,7 @@ const CharacterCard = ({
   selectCharacter,
   setCharacterList,
   setSelectCharacter,
+  setSchedule,
 }) => {
   const size = useBreakpointValue({
     xxs: 'sm',
@@ -130,6 +131,8 @@ const CharacterCard = ({
           itemLevel,
         }}
         setCharacterList={setCharacterList}
+        setSelectCharacter={setSelectCharacter}
+        setSchedule={setSchedule}
       />
     </Flex>
   );
