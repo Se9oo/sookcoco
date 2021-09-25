@@ -132,21 +132,23 @@ const DataManage = ({ isOpen, onClose }) => {
     // 기존 스케줄 업데이트
     origin.characters.map((character) => {
       if (character.hasOwnProperty('schedule')) {
-        const data = ['daily', 'weekly', 'expedition'];
+        const schedules = ['daily', 'weekly', 'expedition'];
 
-        data.map((x) => {
-          const orgCustomContent = character.schedule[`${x}`].filter(
-            (sch) => sch.custom === 'y'
-          );
+        schedules.map((x) => {
+          const newDataArr = [];
 
-          if (orgCustomContent.length === 0) {
-            character.schedule[`${x}`] = commonSchedule[`${x}`];
-          } else {
-            character.schedule[`${x}`] = [
-              ...commonSchedule[`${x}`],
-              ...orgCustomContent,
-            ];
-          }
+          character.schedule[`${x}`].map((sch) => {
+            if (
+              commonSchedule[`${x}`].findIndex(
+                (commonSch) => commonSch.key === sch.key
+              ) > -1 ||
+              sch.custom === 'y'
+            ) {
+              newDataArr.push(sch);
+            }
+          });
+
+          character.schedule[`${x}`] = newDataArr;
         });
       }
     });
