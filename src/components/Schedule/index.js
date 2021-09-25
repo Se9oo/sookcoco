@@ -45,7 +45,6 @@ const Schedule = ({ selectCharacter, schedule }) => {
         <TabList borderBottom="none" mb="3px">
           <Tab
             bg="gray.50"
-            borderRight="1px solid #e5e5e5"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
             fontSize={size}
@@ -54,7 +53,6 @@ const Schedule = ({ selectCharacter, schedule }) => {
           </Tab>
           <Tab
             bg="gray.50"
-            borderRight="1px solid #e5e5e5"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
             fontSize={size}
