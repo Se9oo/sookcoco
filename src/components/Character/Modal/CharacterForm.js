@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   FormControl,
@@ -9,6 +9,7 @@ import {
   Select,
   Button,
   Flex,
+  Text,
   FormErrorMessage,
 } from '@chakra-ui/react';
 
@@ -20,6 +21,15 @@ import { servers, schedule as commonSchedule } from '../../../common/common';
 const CharacterForm = (props) => {
   const { onOpen, selectClass, characterInfo, setCharacterList, mode, close } =
     props;
+
+  const [isSelectClassError, setIsSelectClassError] = useState(false);
+
+  // 클래스 선택 error 일 때 클래스 선택하면 error 취소
+  useEffect(() => {
+    if (isSelectClassError && selectClass) {
+      setIsSelectClassError(false);
+    }
+  }, [selectClass]);
 
   const numberInputFormat = (e) => {
     let checkNum;
@@ -45,11 +55,11 @@ const CharacterForm = (props) => {
       .required('이름을 입력해 주세요.'),
     level: Yup.number()
       .min(1, '최소 레벨은 1 입니다.')
-      .max(60, '최대 레벨은 60 입니다.')
-      .required('레벨을 입력해 주세요.'),
-    itemLevel: Yup.number()
-      .max(2000, '아이템 레벨은 2000 이하로 설정 가능합니다.')
-      .required('아이템 레벨을 입력해 주세요.'),
+      .max(60, '최대 레벨은 60 입니다.'),
+    itemLevel: Yup.number().max(
+      2000,
+      '아이템 레벨은 2000 이하로 설정 가능합니다.'
+    ),
   });
 
   // 캐릭터 추가/수정
@@ -60,6 +70,16 @@ const CharacterForm = (props) => {
     if (mode !== 'update') {
       data.characterKey = 0;
       data.selectClass = selectClass;
+
+      // 캐릭터 추가시 클래스 선택 값 없는 경우 예외처리
+      if (!selectClass) {
+        setIsSelectClassError(true);
+        return;
+      } else {
+        if (isSelectClassError) {
+          setIsSelectClassError(false);
+        }
+      }
 
       // sookcoco key가 존재하지 않으면 (첫 캐릭터 생성시)
       if (!origin) {
@@ -161,11 +181,17 @@ const CharacterForm = (props) => {
               </FormControl>
             )}
           </Field>
-          <FormControl mb={4} isRequired={mode === 'update' ? false : true}>
+          <FormControl
+            mb={isSelectClassError ? 2 : 4}
+            isRequired={mode === 'update' ? false : true}
+          >
             <FormLabel>클래스</FormLabel>
             <Input
               name="selectClass"
               focusBorderColor="green.500"
+              isInvalid={isSelectClassError}
+              errorBorderColor="red.500"
+              borderWidth={isSelectClassError ? '2px' : '1px'}
               placeholder="클래스를 선택해주세요."
               onClick={onOpen}
               value={selectClass}
@@ -173,6 +199,11 @@ const CharacterForm = (props) => {
               disabled={mode === 'update' ? true : false}
             />
           </FormControl>
+          {isSelectClassError ? (
+            <Text fontSize="sm" color="red.500" mb={2}>
+              클래스를 선택해 주세요.
+            </Text>
+          ) : null}
           <Field name="name">
             {({ field, form }) => (
               <FormControl
@@ -197,7 +228,6 @@ const CharacterForm = (props) => {
             {({ field, form }) => (
               <FormControl
                 mb={4}
-                isRequired
                 isInvalid={form.errors.level && form.touched.level}
               >
                 <FormLabel>캐릭터 레벨</FormLabel>
@@ -224,7 +254,6 @@ const CharacterForm = (props) => {
             {({ field, form }) => (
               <FormControl
                 mb={4}
-                isRequired
                 isInvalid={form.errors.itemLevel && form.touched.itemLevel}
               >
                 <FormLabel>아이템 레벨</FormLabel>

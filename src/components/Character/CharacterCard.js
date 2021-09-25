@@ -95,12 +95,16 @@ const CharacterCard = ({
           <Center mr="5px" mb="3px">
             <Badge bg="white">{serverKor}</Badge>
           </Center>
-          <Center mr="5px" mb="3px">
-            <Badge bg="white">{`Lv.${level}`}</Badge>
-          </Center>
-          <Center mb="3px">
-            <Badge bg="white">{itemLevel}</Badge>
-          </Center>
+          {level && (
+            <Center mr="5px" mb="3px">
+              <Badge bg="white">{`Lv.${level}`}</Badge>
+            </Center>
+          )}
+          {itemLevel && (
+            <Center mb="3px">
+              <Badge bg="white">{itemLevel}</Badge>
+            </Center>
+          )}
         </Flex>
       </Flex>
       <Spacer />
