@@ -137,14 +137,14 @@ const Sookcoco = () => {
     window.localStorage.setItem('sookcoco', JSON.stringify(origin));
   }, []);
 
-  // 캐릭터 선택시
-  useEffect(() => {
+  // 캐릭터 선택 이벤트
+  const onClickCharacterCard = (characterKey) => () => {
     const data = JSON.parse(window.localStorage.getItem('sookcoco'));
 
     // 캐릭터 선택시 선택한 스케줄 불러오기
-    if (selectCharacter > -1 && data) {
+    if (characterKey > -1 && data) {
       const idx = data.characters.findIndex(
-        (character) => character.characterKey === selectCharacter
+        (character) => character.characterKey === characterKey
       );
 
       if (idx > -1) {
@@ -161,7 +161,9 @@ const Sookcoco = () => {
         }
       }
     }
-  }, [selectCharacter]);
+
+    setSelectCharacter(characterKey);
+  };
 
   return (
     <>
@@ -180,6 +182,7 @@ const Sookcoco = () => {
             selectCharacter={selectCharacter}
             setSelectCharacter={setSelectCharacter}
             setSchedule={setSchedule}
+            onClickCharacterCard={onClickCharacterCard}
           />
           <Divider m="10px 0" />
           <Schedule selectCharacter={selectCharacter} schedule={schedule} />

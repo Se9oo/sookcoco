@@ -20,6 +20,7 @@ const CharacterList = ({
   selectCharacter,
   setSelectCharacter,
   setSchedule,
+  onClickCharacterCard,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -143,6 +144,7 @@ const CharacterList = ({
                 selectCharacter={selectCharacter}
                 setSelectCharacter={setSelectCharacter}
                 setSchedule={setSchedule}
+                onClickCharacterCard={onClickCharacterCard}
               />
             );
           })

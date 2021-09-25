@@ -25,6 +25,7 @@ const CharacterCard = ({
   selectCharacter,
   setCharacterList,
   setSelectCharacter,
+  onClickCharacterCard,
   setSchedule,
 }) => {
   const size = useBreakpointValue({
@@ -67,10 +68,6 @@ const CharacterCard = ({
   // 캐릭터 수정,삭제 모달 제어
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onClickCharacterCard = () => {
-    setSelectCharacter(characterKey);
-  };
-
   return (
     <Flex
       w="100%"
@@ -82,7 +79,7 @@ const CharacterCard = ({
       }
       cursor="pointer"
       flexDirection={direction}
-      onClick={onClickCharacterCard}
+      onClick={onClickCharacterCard(characterKey)}
     >
       <Avatar size={size} name={name} src={src} m="10px" />
       <Flex flexDirection="column" alignItems={align} flexWrap="wrap">
