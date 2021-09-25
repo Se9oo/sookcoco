@@ -1,6 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button, Flex, Input, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Divider,
+  Heading,
+  Input,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 
 import { schedule } from '../../../common/common';
 
@@ -11,8 +23,16 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
     xxs: 'sm',
     xs: 'sm',
     sm: 'md',
-    md: 'lg',
-    lg: 'lg',
+    md: 'md',
+    lg: 'md',
+  });
+
+  const headingSize = useBreakpointValue({
+    xxs: 'xs',
+    xs: 'xs',
+    sm: 'sm',
+    md: 'sm',
+    lg: 'sm',
   });
 
   // 사용자가 추가한 커스텀 컨텐츠 리스트
@@ -23,6 +43,11 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
   const [customContent, setCustomContent] = useState('');
   const onChangeCustomConetent = (e) => {
     setCustomContent(e.target.value);
+  };
+  // 추가하는 커스텀 컨텐츠 횟수
+  const [customContentTimes, setCustomContentTimes] = useState(1);
+  const onChangeCustomContentTimes = (val) => {
+    setCustomContentTimes(val);
   };
 
   // 초기 컨텐츠 리스트 세팅
@@ -69,7 +94,9 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
       key: `custom${max}`,
       kor: customContent,
       custom: 'y',
-      idx: max,
+      done: 0,
+      checkCount: customContentTimes,
+      repeat: mode,
     };
 
     const list = [...contentList, data];
@@ -106,7 +133,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
     <>
       <Flex
         w="100%"
-        h="80%"
+        h="65%"
         flexDirection="column"
         mb="10px"
         overflow="auto"
@@ -133,17 +160,40 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
           );
         })}
       </Flex>
-      <Flex w="100%" justifyContent="space-between" alignItems="center">
-        <Input
-          w="75%"
-          size={size}
-          variant="flushed"
-          placeholder="추가할 컨텐츠를 입력하세요."
-          focusBorderColor="green.500"
-          value={customContent}
-          onChange={onChangeCustomConetent}
-        />
-        <Button w="20%" size={size} onClick={onClickAddContent}>
+      <Divider mb="10px" />
+      <Heading as="h3" size={headingSize} mb="5px">
+        커스텀 컨텐츠 추가
+      </Heading>
+      <Flex w="100%" flexDirection="column" justifyContent="center">
+        <Flex justifyContent="space-between" alignItems="center" mb="5px">
+          <Input
+            w="70%"
+            mr="5px"
+            size={size}
+            variant="flushed"
+            placeholder="추가할 컨텐츠를 입력하세요."
+            focusBorderColor="green.500"
+            value={customContent}
+            onChange={onChangeCustomConetent}
+          />
+          <NumberInput
+            w="30%"
+            size={size}
+            defaultValue={1}
+            min={1}
+            max={99}
+            focusBorderColor="green.500"
+            value={customContentTimes}
+            onChange={onChangeCustomContentTimes}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </Flex>
+        <Button w="100%" size={size} onClick={onClickAddContent}>
           추가
         </Button>
       </Flex>
