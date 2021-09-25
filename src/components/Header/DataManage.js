@@ -137,18 +137,30 @@ const DataManage = ({ isOpen, onClose }) => {
         schedules.map((x) => {
           const newDataArr = [];
 
-          character.schedule[`${x}`].map((sch) => {
+          commonSchedule[`${x}`].map((commonSch) => {
             if (
-              commonSchedule[`${x}`].findIndex(
-                (commonSch) => commonSch.key === sch.key
-              ) > -1 ||
-              sch.custom === 'y'
+              character.schedule[`${x}`].findIndex(
+                (sch) => sch.key === commonSch.key
+              ) > -1
             ) {
-              newDataArr.push(sch);
+              newDataArr.push(commonSch);
             }
           });
 
-          character.schedule[`${x}`] = newDataArr;
+          // custom 스케줄 컨텐츠 (수행횟수 초기화)
+          const customScheduleArr = character.schedule[`${x}`].filter(
+            (sch) => sch.custom === 'y'
+          );
+
+          customScheduleArr.map((sch) => {
+            sch.done = 0;
+          });
+
+          if (customScheduleArr.length > 0) {
+            character.schedule[`${x}`] = [...newDataArr, ...customScheduleArr];
+          } else {
+            character.schedule[`${x}`] = newDataArr;
+          }
         });
       }
     });
