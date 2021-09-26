@@ -6,6 +6,7 @@ import { useBreakpointValue } from '@chakra-ui/media-query';
 import { Avatar } from '@chakra-ui/avatar';
 import { Button, ButtonGroup } from '@chakra-ui/button';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { Image } from '@chakra-ui/image';
 
 const ScheduleCard = ({ item, selectCharacter, mode }) => {
   const buttonSize = useBreakpointValue({
@@ -28,6 +29,30 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
     sm: 'row',
     md: 'column',
     lg: 'column',
+  });
+
+  const doneImageWidth = useBreakpointValue({
+    xxs: '20px',
+    xs: '20px',
+    sm: '25px',
+    md: '30px',
+    lg: '30px',
+  });
+
+  const doneImagePosition = useBreakpointValue({
+    xxs: 'relative',
+    xs: 'relative',
+    sm: 'relative',
+    md: 'absolute',
+    lg: 'absolute',
+  });
+
+  const doneImagePositionValue = useBreakpointValue({
+    xxs: '0',
+    xs: '0',
+    sm: '0',
+    md: '10px',
+    lg: '10px',
   });
 
   const { src, key, kor } = item;
@@ -97,6 +122,7 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
 
   return (
     <Flex
+      position="relative"
       flexDirection="column"
       justifyContent="space-between"
       p="10px"
@@ -118,10 +144,21 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
           />
           <Text fontSize={size}>{kor}</Text>
         </Flex>
-        <Flex>
+        <Flex justifyContent="center" alignItems="center">
           <Text fontSize={size}>{doneCount}</Text>
           <span>/</span>
-          <Text fontSize={size}>{checkCount}</Text>
+          <Text fontSize={size} mr={doneCount === checkCount ? '5px' : '0'}>
+            {checkCount}
+          </Text>
+          {doneCount === checkCount && (
+            <Image
+              src="/sookcoco-logo-mini.png"
+              width={doneImageWidth}
+              position={doneImagePosition}
+              top={doneImagePositionValue}
+              right={doneImagePositionValue}
+            />
+          )}
         </Flex>
       </Flex>
       <Divider mb="10px" />
