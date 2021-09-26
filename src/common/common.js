@@ -314,7 +314,7 @@ export const schedule = {
       kor: '도전 어비스 던전',
       src: 'https://cdn-lostark.game.onstove.com/uploadfiles/notice/a8d7c95daca24df0a33f561136de379a.png',
       checked: false,
-      checkCount: 1,
+      checkCount: 2,
       done: 0,
       order: 5,
       repeat: 'weekly',
