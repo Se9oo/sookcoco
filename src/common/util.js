@@ -20,3 +20,24 @@ export const getServerKor = (eng) => {
 
   return info.length > 0 ? info[0].kor : '';
 };
+
+// deep copy logic
+export const deepCopyObj = (obj) => {
+  let copy = {};
+
+  if (Array.isArray(obj)) {
+    copy = obj.slice().map((v) => {
+      return deepCopyObj(v);
+    });
+  } else if (typeof obj === 'object' && obj !== null) {
+    for (const attr in obj) {
+      if (obj.hasOwnProperty(attr)) {
+        copy[attr] = deepCopyObj(obj[attr]);
+      }
+    }
+  } else {
+    copy = obj;
+  }
+
+  return copy;
+};
