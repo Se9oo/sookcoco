@@ -15,6 +15,8 @@ import {
 
 import ScheduleSettingTabs from './ScheduleSettingTabs';
 
+import { deepCopyObj } from '../../../common/util';
+
 const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
   // 일일, 주간, 원정대 체크한 컨텐츠
   const [checkedList, setCheckedList] = useState({
@@ -77,6 +79,8 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
       (exp) => exp.custom === 'y'
     );
 
+    const copyCustomExpContent = deepCopyObj(customExpContent);
+
     origin.characters.map((character) => {
       if (character.characterKey === characterKey) {
         character['schedule'] = checkedList;
@@ -87,10 +91,24 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
             (exp) => exp.custom !== 'y'
           );
 
-          if (customExpContent.length > 0) {
+          // 원정대 커스텀 컨텐츠가 있는 경우
+          if (copyCustomExpContent.length > 0) {
+            // 다른 캐릭터에 추가하는 원정대 커스텀 컨텐츠가 있는지 체크 후
+            // 없다면 checked 상태를 false로 세팅하고 schedule에 추가
+            copyCustomExpContent.map((customExp) => {
+              const expIdx = character.schedule.expedition.findIndex(
+                (exp) => exp.key === customExp.key
+              );
+
+              expIdx === -1
+                ? (customExp.checked = false)
+                : (customExp.checked =
+                    character.schedule.expedition[expIdx].checked);
+            });
+
             character.schedule.expedition = [
               ...orgExpWithoutCustom,
-              ...customExpContent,
+              ...copyCustomExpContent,
             ];
           } else {
             character.schedule.expedition = orgExpWithoutCustom;
@@ -105,7 +123,9 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
     );
 
     if (customExpContent.length > 0) {
-      origin.expedition = [...commonExpWithoutCustom, ...customExpContent];
+      copyCustomExpContent.map((customExp) => (customExp.checked = false));
+
+      origin.expedition = [...commonExpWithoutCustom, ...copyCustomExpContent];
     } else {
       origin.expedition = commonExpWithoutCustom;
     }
