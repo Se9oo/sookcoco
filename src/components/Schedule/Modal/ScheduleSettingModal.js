@@ -46,7 +46,7 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
   }, [characterKey, open]);
 
   // 컨텐츠 체크박스 체크 change event
-  const onClickScheduleItems = (key, isChecked, schedule, mode) => {
+  const onClickScheduleItems = (key, isChecked, schedule, mode, action) => {
     if (!checkedList[`${mode}`]) {
       return;
     }
@@ -55,30 +55,60 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
 
     const newCheckedList = { ...checkedList };
 
-    if (isChecked) {
-      if (idx === -1) {
-        schedule.checked = true;
-        newCheckedList[`${mode}`].push(schedule);
-        setCheckedList(newCheckedList);
-      }
-    } else {
-      if (idx >= 0) {
-        schedule.checked = false;
-        newCheckedList[`${mode}`].splice(idx, 1);
-        setCheckedList(newCheckedList);
-      }
+    if (action === 'add' || action === 'check') {
+      schedule.checked = action === 'add' ? false : isChecked;
+
+      idx === -1
+        ? newCheckedList[`${mode}`].push(schedule)
+        : (newCheckedList[`${mode}`][idx] = schedule);
+    } else if (action === 'delete') {
+      schedule.checked = false;
+      newCheckedList[`${mode}`].splice(idx, 1);
     }
+
+    setCheckedList(newCheckedList);
   };
 
   // 컨텐츠 저장
   const onClickSaveBtn = () => {
     const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
+    const customExpContent = checkedList.expedition.filter(
+      (exp) => exp.custom === 'y'
+    );
+
     origin.characters.map((character) => {
       if (character.characterKey === characterKey) {
         character['schedule'] = checkedList;
+      } else {
+        // 다른 캐릭터들 원정대 스케줄 저장
+        if (character.hasOwnProperty('schedule')) {
+          const orgExpWithoutCustom = character.schedule.expedition.filter(
+            (exp) => exp.custom !== 'y'
+          );
+
+          if (customExpContent.length > 0) {
+            character.schedule.expedition = [
+              ...orgExpWithoutCustom,
+              ...customExpContent,
+            ];
+          } else {
+            character.schedule.expedition = orgExpWithoutCustom;
+          }
+        }
       }
     });
+
+    // 공통 원정대 컨텐츠에 저장
+    const commonExpWithoutCustom = origin.expedition.filter(
+      (exp) => exp.custom !== 'y'
+    );
+
+    if (customExpContent.length > 0) {
+      origin.expedition = [...commonExpWithoutCustom, ...customExpContent];
+    } else {
+      origin.expedition = commonExpWithoutCustom;
+    }
 
     window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 

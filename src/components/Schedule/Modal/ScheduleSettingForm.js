@@ -6,6 +6,7 @@ import {
   Divider,
   Heading,
   Input,
+  Select,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -17,6 +18,7 @@ import {
 import { schedule } from '../../../common/common';
 
 import ScheduleItems from './ScheduleItems';
+import useInput from '../../../hooks/useInput';
 
 const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
   const size = useBreakpointValue({
@@ -37,7 +39,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
 
   // 사용자가 추가한 커스텀 컨텐츠 리스트
   const [customList, setCustomList] = useState([]);
-  // 고정 컨텐츠 리스트
+  // 컨텐츠 리스트
   const [contentList, setContentList] = useState([]);
   // 추가하는 컨텐츠 info state
   const [customContent, setCustomContent] = useState('');
@@ -49,6 +51,10 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
   const onChangeCustomContentTimes = (val) => {
     setCustomContentTimes(val);
   };
+  // 원정대 커스텀 컨텐츠 초기화 주기
+  const [customInitialCycle, onChangeCustomInitialCycle] = useInput(
+    mode === 'daily' || mode === 'expedition' ? 'daily' : 'weekly'
+  );
 
   // 초기 컨텐츠 리스트 세팅
   useEffect(() => {
@@ -66,13 +72,26 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
 
     const deepCopySchedule = JSON.parse(JSON.stringify(schedule[`${mode}`]));
 
-    // 고정 컨텐츠 리스트
-    const scheduleList =
-      customItems.length === 0
-        ? deepCopySchedule
-        : [...deepCopySchedule, ...customItems];
+    // 컨텐츠 리스트
+    let scheduleList = [];
+    if (mode !== 'expedition') {
+      // 일일, 주간 컨텐츠는 캐릭터별 저장된 데이터를 기반으로 리스트 세팅
+      scheduleList =
+        customItems.length === 0
+          ? deepCopySchedule
+          : [...deepCopySchedule, ...customItems];
+    } else {
+      // 원정대 컨텐츠는 localStorage에 저장된 데이터를 기반으로 리스트 세팅
+      const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const checkedKeyList = checkedList.map((checked) => checked.key);
+      scheduleList = origin.expedition;
+    }
+
+    const checkedKeyList = checkedList.map((checked) => {
+      if (checked.checked) {
+        return checked.key;
+      }
+    });
 
     scheduleList.map((sch) => {
       if (checkedKeyList.includes(sch.key)) {
@@ -87,8 +106,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
   const onClickAddContent = () => {
     if (customContent === '' || !customContent) return;
 
-    const indexArr = customList.map((item) => item.idx);
-    const max = indexArr.length === 0 ? 0 : Math.max(...indexArr) + 1;
+    const max = customList.length === 0 ? 0 : customList.length;
 
     const data = {
       key: `custom${max}`,
@@ -96,7 +114,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
       custom: 'y',
       done: 0,
       checkCount: customContentTimes,
-      repeat: mode,
+      repeat: customInitialCycle,
     };
 
     const list = [...contentList, data];
@@ -105,6 +123,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
     setCustomContent('');
     setContentList(list);
     setCustomList(customContentList);
+    onClickScheduleItems(data.key, false, data, mode, 'add');
   };
 
   // 커스텀 컨텐츠 삭제
@@ -124,7 +143,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
       setContentList(list);
       setCustomList(customContentList);
       // 최종 컨텐츠 set에서도 제거
-      onClickScheduleItems(key, false, {}, mode);
+      onClickScheduleItems(key, false, {}, mode, 'delete');
     },
     [contentList, customList, onClickScheduleItems, mode]
   );
@@ -133,7 +152,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
     <>
       <Flex
         w="100%"
-        h="65%"
+        h="60%"
         flexDirection="column"
         mb="10px"
         overflow="auto"
@@ -165,19 +184,20 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
         커스텀 컨텐츠 추가
       </Heading>
       <Flex w="100%" flexDirection="column" justifyContent="center">
+        <Input
+          w="100%"
+          mb="5px"
+          size={size}
+          variant="flushed"
+          placeholder="추가할 컨텐츠를 입력하세요."
+          focusBorderColor="green.500"
+          value={customContent}
+          onChange={onChangeCustomConetent}
+        />
         <Flex justifyContent="space-between" alignItems="center" mb="5px">
-          <Input
-            w="70%"
-            mr="5px"
-            size={size}
-            variant="flushed"
-            placeholder="추가할 컨텐츠를 입력하세요."
-            focusBorderColor="green.500"
-            value={customContent}
-            onChange={onChangeCustomConetent}
-          />
           <NumberInput
-            w="30%"
+            w="100%"
+            mr="5px"
             size={size}
             defaultValue={1}
             min={1}
@@ -192,6 +212,19 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+          <Select
+            size={size}
+            focusBorderColor="green.500"
+            value={customInitialCycle}
+            onChange={onChangeCustomInitialCycle}
+          >
+            {(mode === 'daily' || mode === 'expedition') && (
+              <option value="daily">일일</option>
+            )}
+            {(mode === 'weekly' || mode === 'expedition') && (
+              <option value="weekly">주간</option>
+            )}
+          </Select>
         </Flex>
         <Button w="100%" size={size} onClick={onClickAddContent}>
           추가

@@ -21,7 +21,13 @@ const ScheduleItems = ({
   const [checked, setChecked] = useState(schedule.checked || false);
   const onChangeChecked = (e) => {
     setChecked(!checked);
-    onClickScheduleItems(schedule.key, e.target.checked, schedule, mode);
+    onClickScheduleItems(
+      schedule.key,
+      e.target.checked,
+      schedule,
+      mode,
+      'check'
+    );
   };
 
   return (

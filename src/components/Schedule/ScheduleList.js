@@ -22,11 +22,16 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
   });
 
   const infoMessage = '캐릭터를 선택하고\n스케줄을 추가해 주세요!';
+  const checkedSchedule =
+    schedule !== undefined
+      ? schedule.filter((sch) => sch.checked === true)
+      : [];
+
   return (
     <>
-      {schedule !== undefined && schedule.length !== 0 ? (
+      {checkedSchedule.length !== 0 ? (
         <Grid templateColumns={templates} gap="10px">
-          {schedule.map((item) => {
+          {checkedSchedule.map((item) => {
             return (
               <ScheduleCard
                 key={item.key}
