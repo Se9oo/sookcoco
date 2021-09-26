@@ -128,6 +128,7 @@ const DataManage = ({ isOpen, onClose }) => {
     setIsAlertOpen(false);
 
     const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
+    const deepCopySchedule = JSON.parse(JSON.stringify(commonSchedule));
 
     // 기존 스케줄 업데이트
     origin.characters.map((character) => {
@@ -137,14 +138,15 @@ const DataManage = ({ isOpen, onClose }) => {
         schedules.map((x) => {
           const newDataArr = [];
 
-          commonSchedule[`${x}`].map((commonSch) => {
-            if (
-              character.schedule[`${x}`].findIndex(
-                (sch) => sch.key === commonSch.key
-              ) > -1
-            ) {
-              newDataArr.push(commonSch);
-            }
+          // 스케줄 업데이트시 컨텐츠 체크 상태 동기화
+          deepCopySchedule[`${x}`].map((commonSch) => {
+            character.schedule[`${x}`].map((sch) => {
+              if (sch.key === commonSch.key) {
+                commonSch.checked = sch.checked;
+
+                newDataArr.push(commonSch);
+              }
+            });
           });
 
           // custom 스케줄 컨텐츠 (수행횟수 초기화)
