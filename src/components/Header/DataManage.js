@@ -152,11 +152,11 @@ const DataManage = ({ isOpen, onClose }) => {
             (sch) => sch.custom === 'y'
           );
 
-          customScheduleArr.map((sch) => {
-            sch.done = 0;
-          });
-
           if (customScheduleArr.length > 0) {
+            customScheduleArr.map((sch) => {
+              sch.done = 0;
+            });
+
             character.schedule[`${x}`] = [...newDataArr, ...customScheduleArr];
           } else {
             character.schedule[`${x}`] = newDataArr;
@@ -164,6 +164,28 @@ const DataManage = ({ isOpen, onClose }) => {
         });
       }
     });
+
+    // 공통 원정대 컨텐츠 업데이트
+    const newExpeditionArr = [];
+    commonSchedule.expedition.map((commonSch) => {
+      if (
+        origin.expedition.findIndex((sch) => sch.key === commonSch.key) > -1
+      ) {
+        newExpeditionArr.push(commonSch);
+      }
+    });
+
+    const customExpeditionArr = origin.expedition.filter(
+      (sch) => sch.custom === 'y'
+    );
+
+    if (customExpeditionArr.length > 0) {
+      customExpeditionArr.map((sch) => (sch.done = 0));
+
+      origin.expedition = [...newExpeditionArr, ...customExpeditionArr];
+    } else {
+      origin.expedition = newExpeditionArr;
+    }
 
     window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
