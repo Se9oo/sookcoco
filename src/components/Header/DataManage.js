@@ -11,6 +11,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
+  DrawerFooter,
 } from '@chakra-ui/react';
 
 import {
@@ -26,6 +27,7 @@ import { schedule as commonSchedule } from '../../common/common';
 
 import Alert from '../Alert';
 import DataManageHelp from './DataManageHelp';
+import Copyright from './Copyright';
 
 function checkStorageData(data) {
   if (!data || typeof data !== 'object') {
@@ -277,6 +279,9 @@ const DataManage = ({ isOpen, onClose }) => {
             </Heading>
             <DataManageHelp />
           </DrawerBody>
+          <DrawerFooter justifyContent="center" borderTop="1px solid #e5e5e5">
+            <Copyright />
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
       <Alert
