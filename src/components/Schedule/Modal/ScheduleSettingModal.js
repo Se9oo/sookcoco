@@ -4,6 +4,8 @@ import {
   Button,
   Flex,
   Image,
+  Heading,
+  useBreakpointValue,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,6 +20,14 @@ import ScheduleSettingTabs from './ScheduleSettingTabs';
 import { deepCopyObj } from '../../../common/util';
 
 const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
+  const headingSize = useBreakpointValue({
+    xxs: 'sm',
+    xs: 'sm',
+    sm: 'md',
+    md: 'md',
+    lg: 'md',
+  });
+
   // 일일, 주간, 원정대 체크한 컨텐츠
   const [checkedList, setCheckedList] = useState({
     daily: [],
@@ -142,9 +152,11 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          <Flex>
+          <Flex alignItems="center">
             <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
-            스케줄 설정
+            <Heading as="h2" size={headingSize}>
+              스케줄 설정
+            </Heading>
           </Flex>
         </ModalHeader>
         <ModalCloseButton />
