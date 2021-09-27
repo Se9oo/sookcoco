@@ -78,6 +78,7 @@ const CharacterCard = ({
         selectCharacter === characterKey ? 'rgba(148, 216, 45, 1)' : 'gray.50'
       }
       cursor="pointer"
+      _hover={{ bg: 'gray.100' }}
       flexDirection={direction}
       onClick={onClickCharacterCard(characterKey)}
     >

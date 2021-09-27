@@ -40,6 +40,7 @@ const Schedule = ({ selectCharacter, schedule }) => {
             bg="gray.50"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
+            _hover={{ bg: 'gray.100' }}
             fontSize={size}
           >
             일일
@@ -48,6 +49,7 @@ const Schedule = ({ selectCharacter, schedule }) => {
             bg="gray.50"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
+            _hover={{ bg: 'gray.100' }}
             fontSize={size}
           >
             주간
@@ -56,6 +58,7 @@ const Schedule = ({ selectCharacter, schedule }) => {
             bg="gray.50"
             _selected={{ color: 'white', bg: 'lime' }}
             _focus={{ outline: 'none' }}
+            _hover={{ bg: 'gray.100' }}
             fontSize={size}
           >
             원정대

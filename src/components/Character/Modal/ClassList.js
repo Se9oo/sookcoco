@@ -19,6 +19,7 @@ const ClassList = ({ characters, onClose, setSelectClass }) => {
               borderRadius="lg"
               p="5px"
               cursor="pointer"
+              _hover={{ bg: 'gray.100' }}
               onClick={onClickClass(c.kor)}
             >
               <Flex flexDirection="column" alignItems="center" p="5px">

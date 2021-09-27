@@ -37,6 +37,7 @@ const ScheduleItems = ({
         alignItems="center"
         p="5px 0"
         cursor="pointer"
+        _hover={{ bg: 'gray.100' }}
       >
         <Flex alignItems="center">
           <Avatar
