@@ -63,9 +63,9 @@ export const theme = extendTheme({
         textDecoration: 'none',
         color: 'inherit',
       },
-      'ol, ul, li': {
-        listStyle: 'none',
-      },
+      // 'ol, ul, li': {
+      //   listStyle: 'none',
+      // },
       img: {
         display: 'block',
       },
