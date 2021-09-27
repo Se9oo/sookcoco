@@ -1,14 +1,36 @@
 import React from 'react';
 
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 
 import ScheduleSettingForm from './ScheduleSettingForm';
 
 const ScheduleSettingTabs = ({ checkedList, onClickScheduleItems }) => {
   const mode = ['daily', 'weekly', 'expedition'];
 
+  const tabSize = useBreakpointValue({
+    xxs: 'sm',
+    xs: 'sm',
+    sm: 'md',
+    md: 'md',
+    lg: 'md',
+  });
+
   return (
-    <Tabs h="65vh" colorScheme="green" isFitted variant="enclosed" bg="white">
+    <Tabs
+      h="65vh"
+      colorScheme="green"
+      isFitted
+      variant="enclosed"
+      bg="white"
+      size={tabSize}
+    >
       <TabList borderBottom="none">
         <Tab
           _selected={{ color: 'white', bg: 'lime' }}

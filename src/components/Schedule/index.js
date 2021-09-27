@@ -29,12 +29,27 @@ const Schedule = ({ selectCharacter, schedule }) => {
     sm: 'md',
   });
 
+  const tabSize = useBreakpointValue({
+    xxs: 'sm',
+    xs: 'sm',
+    sm: 'md',
+    md: 'md',
+    lg: 'md',
+  });
+
   return (
     <>
       <Heading p="5px" mb="10px" as="h2" size={headingSize}>
         스케줄
       </Heading>
-      <Tabs isFitted variant="enclosed" bg="white" p="5px">
+      <Tabs
+        isFitted
+        variant="enclosed"
+        bg="white"
+        p="5px"
+        mb="10px"
+        size={tabSize}
+      >
         <TabList borderBottom="none" mb="3px">
           <Tab
             bg="gray.50"
