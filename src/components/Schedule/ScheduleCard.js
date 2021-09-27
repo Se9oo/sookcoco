@@ -55,6 +55,14 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
     lg: '10px',
   });
 
+  const doneImageMargin = useBreakpointValue({
+    xxs: '5px',
+    xs: '5px',
+    sm: '5px',
+    md: '0',
+    lg: '0',
+  });
+
   const { src, key, kor } = item;
   const [doneCount, setDoneCount] = useState(item.done);
   const [checkCount, setCheckCount] = useState(item.checkCount);
@@ -147,7 +155,10 @@ const ScheduleCard = ({ item, selectCharacter, mode }) => {
         <Flex justifyContent="center" alignItems="center">
           <Text fontSize={size}>{doneCount}</Text>
           <span>/</span>
-          <Text fontSize={size} mr={doneCount === checkCount ? '5px' : '0'}>
+          <Text
+            fontSize={size}
+            mr={doneCount === checkCount ? doneImageMargin : '0'}
+          >
             {checkCount}
           </Text>
           {doneCount === checkCount && (
