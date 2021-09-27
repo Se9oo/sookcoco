@@ -5,6 +5,7 @@ import {
   Input,
   Box,
   useBreakpointValue,
+  Heading,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -19,10 +20,12 @@ import {
   RepeatIcon,
 } from '@chakra-ui/icons';
 
-import Alert from '../Alert';
 import { encrypt, decrypt } from '../../common/crypto';
 import useInput from '../../hooks/useInput';
 import { schedule as commonSchedule } from '../../common/common';
+
+import Alert from '../Alert';
+import DataManageHelp from './DataManageHelp';
 
 function checkStorageData(data) {
   if (!data || typeof data !== 'object') {
@@ -61,6 +64,14 @@ const DataManage = ({ isOpen, onClose }) => {
     xs: 'sm',
     sm: 'md',
     md: 'md',
+  });
+
+  const headingSize = useBreakpointValue({
+    xxs: 'xs',
+    xs: 'xs',
+    sm: 'sm',
+    md: 'sm',
+    lg: 'sm',
   });
 
   // message
@@ -207,11 +218,13 @@ const DataManage = ({ isOpen, onClose }) => {
             데이터 관리
           </DrawerHeader>
           <DrawerBody>
-            <Box>
+            <Box mb="10px">
               <Input
                 w="100%"
                 mb="10px"
+                fontSize="sm"
                 focusBorderColor="green.500"
+                placeholder="복사된 데이터를 여기에 붙여 넣어주세요!"
                 onChange={onChangeDataInput}
               />
               <Button
@@ -259,6 +272,10 @@ const DataManage = ({ isOpen, onClose }) => {
                 데이터 초기화
               </Button>
             </Box>
+            <Heading as="h3" size={headingSize} mb="10px">
+              도움말
+            </Heading>
+            <DataManageHelp />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
