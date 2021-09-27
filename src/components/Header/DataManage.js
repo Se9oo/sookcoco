@@ -208,7 +208,12 @@ const DataManage = ({ isOpen, onClose }) => {
           </DrawerHeader>
           <DrawerBody>
             <Box>
-              <Input w="100%" mb="10px" onChange={onChangeDataInput} />
+              <Input
+                w="100%"
+                mb="10px"
+                focusBorderColor="green.500"
+                onChange={onChangeDataInput}
+              />
               <Button
                 w="100%"
                 size={size}
