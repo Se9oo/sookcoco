@@ -4,8 +4,11 @@ import {
   Button,
   Input,
   Box,
+  Text,
+  Flex,
   useBreakpointValue,
   Heading,
+  CloseButton,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -217,7 +220,10 @@ const DataManage = ({ isOpen, onClose }) => {
             mb="10px"
             borderBottom="1px solid #e5e5e5"
           >
-            데이터 관리
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text>데이터 관리</Text>
+              <CloseButton onClick={onClose} />
+            </Flex>
           </DrawerHeader>
           <DrawerBody>
             <Box mb="10px">
