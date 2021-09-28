@@ -17,6 +17,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 import { servers, schedule as commonSchedule } from '../../../common/common';
+import Alert from '../../Alert';
 
 const CharacterForm = (props) => {
   const {
@@ -31,6 +32,12 @@ const CharacterForm = (props) => {
   } = props;
 
   const [isSelectClassError, setIsSelectClassError] = useState(false);
+
+  // alert state
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const onAlertOpen = () => {
+    setIsAlertOpen(true);
+  };
 
   // 클래스 선택 error 일 때 클래스 선택하면 error 취소
   useEffect(() => {
@@ -156,151 +163,162 @@ const CharacterForm = (props) => {
   };
 
   return (
-    <Formik
-      initialValues={{
-        server: characterInfo ? characterInfo.server : '',
-        name: characterInfo ? characterInfo.name : '',
-        level: characterInfo ? characterInfo.level : '',
-        itemLevel: characterInfo ? characterInfo.itemLevel : '',
-      }}
-      validationSchema={validationSchema}
-      onSubmit={onSubmitForm}
-    >
-      {({ values, handleChange }) => (
-        <Form>
-          <Field name="server">
-            {({ field, form }) => (
-              <FormControl
-                mb={4}
-                isRequired={mode === 'update' ? false : true}
-                isInvalid={form.errors.server && form.touched.server}
-              >
-                <FormLabel>서버</FormLabel>
-                <Select
-                  name="server"
-                  {...field}
-                  focusBorderColor="green.500"
-                  placeholder="서버를 선택해주세요."
-                  onChange={handleChange}
-                  disabled={mode === 'update' ? true : false}
-                  value={values.server}
+    <>
+      <Formik
+        initialValues={{
+          server: characterInfo ? characterInfo.server : '',
+          name: characterInfo ? characterInfo.name : '',
+          level: characterInfo ? characterInfo.level : '',
+          itemLevel: characterInfo ? characterInfo.itemLevel : '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={onSubmitForm}
+      >
+        {({ values, handleChange }) => (
+          <Form>
+            <Field name="server">
+              {({ field, form }) => (
+                <FormControl
+                  mb={4}
+                  isRequired={mode === 'update' ? false : true}
+                  isInvalid={form.errors.server && form.touched.server}
                 >
-                  {servers.map((server) => (
-                    <option key={server.eng} value={server.eng}>
-                      {server.kor}
-                    </option>
-                  ))}
-                </Select>
-                <FormErrorMessage>{form.errors.server}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <FormControl
-            mb={isSelectClassError ? 2 : 4}
-            isRequired={mode === 'update' ? false : true}
-          >
-            <FormLabel>클래스</FormLabel>
-            <Input
-              name="selectClass"
-              focusBorderColor="green.500"
-              isInvalid={isSelectClassError}
-              errorBorderColor="red.500"
-              borderWidth={isSelectClassError ? '2px' : '1px'}
-              placeholder="클래스를 선택해주세요."
-              onClick={onOpen}
-              value={selectClass}
-              isReadOnly
-              disabled={mode === 'update' ? true : false}
-            />
-          </FormControl>
-          {isSelectClassError ? (
-            <Text fontSize="sm" color="red.500" mb={2}>
-              클래스를 선택해 주세요.
-            </Text>
-          ) : null}
-          <Field name="name">
-            {({ field, form }) => (
-              <FormControl
-                mb={4}
-                isRequired
-                isInvalid={form.errors.name && form.touched.name}
-              >
-                <FormLabel>캐릭터 이름</FormLabel>
-                <Input
-                  name="name"
-                  {...field}
-                  focusBorderColor="green.500"
-                  placeholder="캐릭터 이름"
-                  onChange={handleChange}
-                  value={values.name}
-                />
-                <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="level">
-            {({ field, form }) => (
-              <FormControl
-                mb={4}
-                isInvalid={form.errors.level && form.touched.level}
-              >
-                <FormLabel>캐릭터 레벨</FormLabel>
-                <InputGroup>
-                  <InputLeftAddon children="Lv." />
+                  <FormLabel>서버</FormLabel>
+                  <Select
+                    name="server"
+                    {...field}
+                    focusBorderColor="green.500"
+                    placeholder="서버를 선택해주세요."
+                    onChange={handleChange}
+                    disabled={mode === 'update' ? true : false}
+                    value={values.server}
+                  >
+                    {servers.map((server) => (
+                      <option key={server.eng} value={server.eng}>
+                        {server.kor}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormErrorMessage>{form.errors.server}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <FormControl
+              mb={isSelectClassError ? 2 : 4}
+              isRequired={mode === 'update' ? false : true}
+            >
+              <FormLabel>클래스</FormLabel>
+              <Input
+                name="selectClass"
+                focusBorderColor="green.500"
+                isInvalid={isSelectClassError}
+                errorBorderColor="red.500"
+                borderWidth={isSelectClassError ? '2px' : '1px'}
+                placeholder="클래스를 선택해주세요."
+                onClick={onOpen}
+                value={selectClass}
+                isReadOnly
+                disabled={mode === 'update' ? true : false}
+              />
+            </FormControl>
+            {isSelectClassError ? (
+              <Text fontSize="sm" color="red.500" mb={2}>
+                클래스를 선택해 주세요.
+              </Text>
+            ) : null}
+            <Field name="name">
+              {({ field, form }) => (
+                <FormControl
+                  mb={4}
+                  isRequired
+                  isInvalid={form.errors.name && form.touched.name}
+                >
+                  <FormLabel>캐릭터 이름</FormLabel>
+                  <Input
+                    name="name"
+                    {...field}
+                    focusBorderColor="green.500"
+                    placeholder="캐릭터 이름"
+                    onChange={handleChange}
+                    value={values.name}
+                  />
+                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Field name="level">
+              {({ field, form }) => (
+                <FormControl
+                  mb={4}
+                  isInvalid={form.errors.level && form.touched.level}
+                >
+                  <FormLabel>캐릭터 레벨</FormLabel>
+                  <InputGroup>
+                    <InputLeftAddon children="Lv." />
+                    <Input
+                      type="number"
+                      {...field}
+                      name="level"
+                      focusBorderColor="green.500"
+                      placeholder="캐릭터 레벨"
+                      onChange={handleChange}
+                      onKeyDown={numberInputFormat}
+                      value={values.level}
+                      min="0"
+                      max="60"
+                    />
+                  </InputGroup>
+                  <FormErrorMessage>{form.errors.level}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Field name="itemLevel">
+              {({ field, form }) => (
+                <FormControl
+                  mb={4}
+                  isInvalid={form.errors.itemLevel && form.touched.itemLevel}
+                >
+                  <FormLabel>아이템 레벨</FormLabel>
                   <Input
                     type="number"
+                    name="itemLevel"
                     {...field}
-                    name="level"
                     focusBorderColor="green.500"
-                    placeholder="캐릭터 레벨"
+                    placeholder="아이템 레벨"
                     onChange={handleChange}
                     onKeyDown={numberInputFormat}
-                    value={values.level}
+                    value={values.itemLevel}
                     min="0"
-                    max="60"
+                    max="2000"
                   />
-                </InputGroup>
-                <FormErrorMessage>{form.errors.level}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="itemLevel">
-            {({ field, form }) => (
-              <FormControl
-                mb={4}
-                isInvalid={form.errors.itemLevel && form.touched.itemLevel}
-              >
-                <FormLabel>아이템 레벨</FormLabel>
-                <Input
-                  type="number"
-                  name="itemLevel"
-                  {...field}
-                  focusBorderColor="green.500"
-                  placeholder="아이템 레벨"
-                  onChange={handleChange}
-                  onKeyDown={numberInputFormat}
-                  value={values.itemLevel}
-                  min="0"
-                  max="2000"
-                />
-                <FormErrorMessage>{form.errors.itemLevel}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Flex justifyContent="flex-end">
-            {mode === 'update' && (
-              <Button colorScheme="red" mr="5px" onClick={onClickDeleteBtn}>
-                삭제
+                  <FormErrorMessage>{form.errors.itemLevel}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Flex justifyContent="flex-end">
+              {mode === 'update' && (
+                <Button colorScheme="red" mr="5px" onClick={onAlertOpen}>
+                  삭제
+                </Button>
+              )}
+              <Button type="submit" colorScheme="green" mr="5px">
+                {mode === 'update' ? '수정' : '추가'}
               </Button>
-            )}
-            <Button type="submit" colorScheme="green" mr="5px">
-              {mode === 'update' ? '수정' : '추가'}
-            </Button>
-            <Button onClick={close}>취소</Button>
-          </Flex>
-        </Form>
-      )}
-    </Formik>
+              <Button onClick={close}>취소</Button>
+            </Flex>
+          </Form>
+        )}
+      </Formik>
+      <Alert
+        isOpen={isAlertOpen}
+        setIsOpen={setIsAlertOpen}
+        title="캐릭터 삭제"
+        message="캐릭터를 삭제 하시겠습니까?"
+        buttonActionText="삭제"
+        alertMode="clear"
+        onClickAction={onClickDeleteBtn}
+      />
+    </>
   );
 };
 
