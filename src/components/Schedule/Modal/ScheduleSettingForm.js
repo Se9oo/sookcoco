@@ -113,7 +113,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
       kor: customContent,
       custom: 'y',
       done: 0,
-      checkCount: customContentTimes,
+      checkCount: parseInt(customContentTimes, 10),
       repeat: customInitialCycle,
     };
 
