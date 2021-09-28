@@ -86,7 +86,7 @@ export const characters = [
     {
       kor: '건슬링어',
       eng: 'gunslinger',
-      src: 'https://cdn-lostark.game.onstove.com/2018/obt/assets/images/common/thumb/gunslinger_s.png',
+      src: 'https://cdn-lostark.game.onstove.com/2018/obt/assets/images/common/thumb/gunslinger_m.png',
     },
   ],
 
