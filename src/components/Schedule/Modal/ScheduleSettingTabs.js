@@ -35,21 +35,18 @@ const ScheduleSettingTabs = ({ checkedList, onClickScheduleItems }) => {
         <Tab
           _selected={{ color: 'white', bg: 'lime' }}
           _focus={{ outline: 'none' }}
-          _hover={{ bg: 'gray.100' }}
         >
           일일
         </Tab>
         <Tab
           _selected={{ color: 'white', bg: 'lime' }}
           _focus={{ outline: 'none' }}
-          _hover={{ bg: 'gray.100' }}
         >
           주간
         </Tab>
         <Tab
           _selected={{ color: 'white', bg: 'lime' }}
           _focus={{ outline: 'none' }}
-          _hover={{ bg: 'gray.100' }}
         >
           원정대
         </Tab>
