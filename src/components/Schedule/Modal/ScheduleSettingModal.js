@@ -15,12 +15,13 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 
-import ScheduleSettingTabs from './ScheduleSettingTabs';
-
 import { deepCopyObj } from '../../../common/util';
 
+import ScheduleSettingTabs from './ScheduleSettingTabs';
+import Alert from '../../Alert';
+
 const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
-  const headingSize = useBreakpointValue({
+  const size = useBreakpointValue({
     xxs: 'sm',
     xs: 'sm',
     sm: 'md',
@@ -28,12 +29,23 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
     lg: 'md',
   });
 
+  // message
+  const successMessage = '최근 스케줄 불러오기 성공';
+  const failureMessage = '최근 설정된 스케줄이 없습니다.';
+
   // 일일, 주간, 원정대 체크한 컨텐츠
   const [checkedList, setCheckedList] = useState({
     daily: [],
     weekly: [],
     expedition: [],
   });
+
+  const [alertMode, setAlertMode] = useState('');
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const onAlertOpen = (mode) => {
+    setAlertMode(mode);
+    setIsAlertOpen(true);
+  };
 
   useEffect(() => {
     const data = JSON.parse(window.localStorage.getItem('sookcoco'));
@@ -140,6 +152,20 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
       origin.expedition = commonExpWithoutCustom;
     }
 
+    // 최근 저장한 스케줄 localStorage 저장 로직
+    const deepCopyCheckedList = deepCopyObj(checkedList);
+
+    const schedules = ['daily', 'weekly', 'expedition'];
+
+    // 수행 횟수 초기화
+    schedules.map((sch) => {
+      deepCopyCheckedList[`${sch}`].map((checked) => {
+        checked.done = 0;
+      });
+    });
+
+    origin.recentSchedule = deepCopyCheckedList;
+
     window.localStorage.setItem('sookcoco', JSON.stringify(origin));
 
     setSchedule(checkedList);
@@ -147,35 +173,74 @@ const ScheduleSettingModal = ({ open, close, characterKey, setSchedule }) => {
     close();
   };
 
+  // 최근 스케줄 불러오기
+  const onClickRecentSchedule = () => {
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
+
+    if (origin.hasOwnProperty('recentSchedule')) {
+      onAlertOpen('success');
+      setCheckedList(origin.recentSchedule);
+    } else {
+      onAlertOpen('failure');
+    }
+  };
+
   return (
-    <Modal isOpen={open} onClose={close}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <Flex alignItems="center">
-            <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
-            <Heading as="h2" size={headingSize}>
-              스케줄 설정
-            </Heading>
-          </Flex>
-        </ModalHeader>
-        <ModalCloseButton />
+    <>
+      <Modal isOpen={open} onClose={close}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Flex alignItems="center">
+              <Image w="32px" mr="5px" src="/sookcoco-logo-mini.png" alt="" />
+              <Heading as="h2" size={size}>
+                스케줄 설정
+              </Heading>
+            </Flex>
+          </ModalHeader>
+          <ModalCloseButton />
 
-        <ModalBody pl="10px" pr="10px">
-          <ScheduleSettingTabs
-            checkedList={checkedList}
-            onClickScheduleItems={onClickScheduleItems}
-          />
-        </ModalBody>
+          <ModalBody pl="10px" pr="10px">
+            <ScheduleSettingTabs
+              checkedList={checkedList}
+              onClickScheduleItems={onClickScheduleItems}
+            />
+          </ModalBody>
 
-        <ModalFooter>
-          <Button colorScheme="green" mr="5px" onClick={onClickSaveBtn}>
-            저장
-          </Button>
-          <Button onClick={close}>취소</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+          <ModalFooter justifyContent="space-between" alignItems="center">
+            <Button
+              bg="lime"
+              color="white"
+              size={size}
+              mr="5px"
+              onClick={onClickRecentSchedule}
+            >
+              최근 스케줄 불러오기
+            </Button>
+            <Flex>
+              <Button
+                colorScheme="green"
+                size={size}
+                mr="5px"
+                onClick={onClickSaveBtn}
+              >
+                저장
+              </Button>
+              <Button size={size} onClick={close}>
+                취소
+              </Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Alert
+        isOpen={isAlertOpen}
+        setIsOpen={setIsAlertOpen}
+        title="스케줄 불러오기"
+        message={alertMode === 'success' ? successMessage : failureMessage}
+        buttonActionText=""
+      />
+    </>
   );
 };
 

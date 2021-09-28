@@ -100,7 +100,7 @@ const ScheduleSettingForm = ({ mode, checkedList, onClickScheduleItems }) => {
     });
 
     setContentList(scheduleList);
-  }, []);
+  }, [checkedList]);
 
   // 커스텀 컨텐츠 추가
   const onClickAddContent = () => {

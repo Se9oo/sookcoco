@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Flex, Text } from '@chakra-ui/layout';
 import { Avatar, Checkbox, useBreakpointValue } from '@chakra-ui/react';
@@ -18,7 +18,7 @@ const ScheduleItems = ({
     lg: 'md',
   });
 
-  const [checked, setChecked] = useState(schedule.checked || false);
+  const [checked, setChecked] = useState(false);
   const onChangeChecked = (e) => {
     setChecked(!checked);
     onClickScheduleItems(
@@ -29,6 +29,10 @@ const ScheduleItems = ({
       'check'
     );
   };
+
+  useEffect(() => {
+    setChecked(schedule.checked || false);
+  }, [schedule.checked]);
 
   return (
     <label>
