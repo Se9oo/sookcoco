@@ -8,3 +8,5 @@ Allow : /
 # Naver Search
 User-agent: Yeti
 Allow: /
+
+Sitemap: https://sookcoco.kr/sitemap.xml
