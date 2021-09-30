@@ -46,7 +46,12 @@ const ScheduleList = ({ selectCharacter, schedule, mode }) => {
         <Box h="100%" borderRadius="lg" p="8%" bgColor="gray.50">
           <Center>
             <Flex alignItems="center">
-              <Image w="24px" mr="3px" src="/sookcoco-logo-mini.png" alt="" />
+              <Image
+                w="24px"
+                mr="3px"
+                src="/sookcoco-logo-mini.png"
+                alt="logo"
+              />
               <Text
                 fontSize={size}
                 align="center"

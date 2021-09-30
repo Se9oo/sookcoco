@@ -25,7 +25,7 @@ const Header = () => {
     <>
       <Box position="relative" w="100%" pt="5px" pb="5px" mb="2">
         <Box w={size} m="0 auto">
-          <Image src="/sookcoco-logo-mini.png" alt="" />
+          <Image src="/sookcoco-logo-mini.png" alt="logo" />
         </Box>
         <Box
           position="absolute"
