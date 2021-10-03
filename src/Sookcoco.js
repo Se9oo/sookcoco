@@ -31,12 +31,34 @@ const Sookcoco = () => {
       origin = {};
       origin.characters = [];
       origin.expedition = commonSchedule.expedition;
-      origin.refreshDate = dayjs(now).add(1, 'day').format('YYYYMMDD0600');
+
+      // 새벽시간대
+      if (
+        parseInt(now) >= parseInt(dayjs(now).format('YYYYMMDD0000')) &&
+        parseInt(now) < parseInt(dayjs(now).format('YYYYMMDD0600'))
+      ) {
+        origin.refreshDate = dayjs(now).format('YYYYMMDD0600');
+      } else {
+        origin.refreshDate = dayjs(now).add(1, 'day').format('YYYYMMDD0600');
+      }
 
       if (diffDate > 0) {
         origin.refreshWeek = dayjs(now)
           .add(diffDate, 'day')
           .format('YYYYMMDD0600');
+      } else if (diffDate === 0) {
+        // 새벽시간대
+        if (
+          parseInt(now) >= parseInt(dayjs(now).format('YYYYMMDD0000')) &&
+          parseInt(now) < parseInt(dayjs(now).format('YYYYMMDD0600'))
+        ) {
+          origin.refreshWeek = dayjs(now).format('YYYYMMDD0600');
+        } else {
+          origin.refreshWeek = dayjs(now)
+            .add(diffDate, 'day')
+            .add(1, 'week')
+            .format('YYYYMMDD0600');
+        }
       } else {
         origin.refreshWeek = dayjs(now)
           .add(diffDate, 'day')
