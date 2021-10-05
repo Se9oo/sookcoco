@@ -38,7 +38,7 @@ const Schedule = ({ selectCharacter, schedule }) => {
   });
 
   return (
-    <>
+    <section>
       <Heading p="5px" mb="10px" as="h2" size={headingSize}>
         스케줄
       </Heading>
@@ -104,7 +104,7 @@ const Schedule = ({ selectCharacter, schedule }) => {
           ;
         </TabPanels>
       </Tabs>
-    </>
+    </section>
   );
 };
 

@@ -6,6 +6,9 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
+
+import styled from 'styled-components';
+
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 import DataManage from './DataManage';
@@ -23,7 +26,7 @@ const Header = () => {
 
   return (
     <>
-      <Box position="relative" w="100%" pt="5px" pb="5px" mb="2">
+      <StyledHeader>
         <Box w={size} m="0 auto">
           <Image src="/sookcoco-logo-mini.png" alt="logo" />
         </Box>
@@ -43,10 +46,17 @@ const Header = () => {
             onClick={onOpen}
           />
         </Box>
-      </Box>
+      </StyledHeader>
       <DataManage isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
+
+const StyledHeader = styled.header`
+  position: relative;
+  width: 100%;
+  padding: 5px 0;
+  margin-bottom: 8px;
+`;
 
 export default Header;

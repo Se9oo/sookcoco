@@ -4,13 +4,14 @@ import {
   Flex,
   Heading,
   Button,
-  Spacer,
   useBreakpointValue,
   useDisclosure,
   Image,
   Text,
   Grid,
 } from '@chakra-ui/react';
+
+import styled from 'styled-components';
 
 import CharacterCard from './CharacterCard';
 import CharacterAddModal from './Modal/CharacterAddModal';
@@ -58,35 +59,36 @@ const CharacterList = ({
   }, [characterList.join()]);
 
   return (
-    <>
-      <Flex alignItems="center" p="5px" mb="10px">
+    <section>
+      <CharacterListSection>
         <Heading as="h2" size={size}>
           캐릭터 목록
         </Heading>
-        <Spacer />
-        {selectCharacter > -1 ? (
+        <Buttons>
+          {selectCharacter > -1 ? (
+            <Button
+              bg="#94d82d"
+              color="white"
+              boxShadow="sm"
+              size={size}
+              fontSize={size}
+              onClick={scheduleOnOpen}
+            >
+              스케줄 설정
+            </Button>
+          ) : null}
           <Button
-            bg="#94d82d"
-            color="white"
+            colorScheme="green"
             boxShadow="sm"
             size={size}
             fontSize={size}
-            onClick={scheduleOnOpen}
+            onClick={onOpen}
+            ml="5px"
           >
-            스케줄 설정
+            캐릭터 추가
           </Button>
-        ) : null}
-        <Button
-          colorScheme="green"
-          boxShadow="sm"
-          size={size}
-          fontSize={size}
-          onClick={onOpen}
-          ml="5px"
-        >
-          캐릭터 추가
-        </Button>
-      </Flex>
+        </Buttons>
+      </CharacterListSection>
       <Grid
         w="100%"
         h="20vh"
@@ -166,8 +168,22 @@ const CharacterList = ({
           setCharacterList={setCharacterList}
         />
       </Grid>
-    </>
+    </section>
   );
 };
+
+const CharacterListSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
 
 export default CharacterList;
