@@ -19,10 +19,3 @@ if (rootElement.hasChildNodes()) {
     rootElement
   );
 }
-
-ReactDOM.render(
-  <React.StrictMode>
-    <Sookcoco />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
