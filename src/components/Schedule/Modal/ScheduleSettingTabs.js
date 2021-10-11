@@ -56,7 +56,6 @@ const ScheduleSettingTabs = ({ checkedList, onClickScheduleItems }) => {
           return (
             <TabPanel key={md} h="100%" p="10px">
               <ScheduleSettingForm
-                h="100%"
                 mode={md}
                 checkedList={checkedList[`${md}`]}
                 onClickScheduleItems={onClickScheduleItems}
