@@ -24,9 +24,17 @@ const ScheduleTableModal = ({ open, close }) => {
     lg: 'md',
   });
 
+  const scrollSize = useBreakpointValue({
+    xxs: '7px',
+    xs: '7px',
+    sm: '7px',
+    md: '10px',
+    lg: '10px',
+  });
+
   return (
     <>
-      <Modal size="6xl" isOpen={open} onClose={close}>
+      <Modal size="6xl" isOpen={open} onClose={close} scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -44,7 +52,22 @@ const ScheduleTableModal = ({ open, close }) => {
           </ModalHeader>
           <ModalCloseButton />
 
-          <ModalBody pl="10px" pr="10px">
+          <ModalBody
+            pl="10px"
+            pr="10px"
+            overflow="auto"
+            css={{
+              '&::-webkit-scrollbar': {
+                width: `${scrollSize}`,
+                height: `${scrollSize}`,
+                borderRadius: '99px',
+                backgroundColor: `rgba(0, 0, 0, 0.05)`,
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: `rgba(0, 0, 0, 0.05)`,
+              },
+            }}
+          >
             <ScheduleTableTabs />
           </ModalBody>
         </ModalContent>
