@@ -4,21 +4,49 @@ import { Table, Thead, Tbody, Tr, Th } from '@chakra-ui/react';
 
 import { schedule as commonSchedule } from '../../../../common/common';
 import { deepCopyObj, getClassInfoByKor } from '../../../../common/util';
-import ScheduleTr from './ScheduleTr';
+
 import ScheduleTh from './ScheduleTh';
+import ScheduleTr from './ScheduleTr';
 
 const ScheduleTable = ({ mode }) => {
-  const [characterList, setCharacterList] = useState([]);
-  const [scheduleTableData, setScheduleTableData] = useState([]);
+  const [scheduleList, setScheduleList] = useState([]);
+  const [tdScheduleData, setTdScheduleData] = useState([]);
 
   useEffect(() => {
     const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const thData = [];
-    const tdData = [];
+    const deepCopySchedule = deepCopyObj(commonSchedule);
+    const deepCopyUserExpedition = deepCopyObj(origin.expedition);
 
+    let thData = [];
+    let tdData = [];
+
+    // th schedule data setting
+    if (mode === 'daily' || mode === 'weekly') {
+      thData = [...deepCopySchedule[`${mode}`]];
+    }
+
+    if (mode === 'daily') {
+      deepCopyUserExpedition.map((userExp) => {
+        if (userExp.repeat === 'daily' && !userExp.custom) {
+          userExp.type = 'expedition';
+          thData.push(userExp);
+        }
+      });
+    } else if (mode === 'expedition') {
+      deepCopyUserExpedition.map((userExp) => {
+        if (userExp.repeat !== 'daily' && !userExp.custom) {
+          userExp.type = 'expedition';
+          thData.push(userExp);
+        }
+      });
+    }
+
+    setScheduleList(thData);
+
+    // td data setting
     origin.characters.map((character) => {
-      // create th data
+      const characterScheduleData = [];
       const classInfo = getClassInfoByKor(character.selectClass);
 
       const characterInfo = {
@@ -26,49 +54,14 @@ const ScheduleTable = ({ mode }) => {
         src: classInfo[0].src,
         name: character.name,
       };
-      thData.push(characterInfo);
-    });
 
-    const deepCopySchedule = deepCopyObj(commonSchedule);
-    const deepCopyUserExpedition = deepCopyObj(origin.expedition);
+      characterScheduleData.push(characterInfo);
 
-    // create td data
-    let userExpArr = [];
-    let commonScheduleArr = [];
-
-    // mode가 원정대인 경우 원정대 - 일일 제외
-    if (mode === 'expedition') {
-      deepCopyUserExpedition.map((exp) => {
-        if (exp.repeat !== 'daily' && !exp.custom) {
-          exp.type = 'expedition';
-          userExpArr.push(exp);
-        }
-      });
-
-      commonScheduleArr = [...userExpArr];
-    } else {
-      // mode가 일일인 경우 원정대 - 일일 추가
-      if (mode === 'daily') {
-        deepCopyUserExpedition.map((exp) => {
-          if (exp.repeat === 'daily' && !exp.custom) {
-            exp.type = 'expedition';
-            userExpArr.push(exp);
-          }
-        });
-      }
-
-      commonScheduleArr = [...deepCopySchedule[`${mode}`], ...userExpArr];
-    }
-
-    commonScheduleArr.map((schedule) => {
-      const isCharacterDoneArr = [];
-      isCharacterDoneArr.push(schedule);
-
-      origin.characters.map((character) => {
+      thData.map((schedule) => {
         if (schedule.type === 'expedition') {
           schedule.done === schedule.checkCount
-            ? isCharacterDoneArr.push('y')
-            : isCharacterDoneArr.push('n');
+            ? characterScheduleData.push('y')
+            : characterScheduleData.push('n');
         } else if (character.hasOwnProperty('schedule')) {
           const schIdx = character.schedule[`${mode}`].findIndex(
             (sch) => sch.key === schedule.key
@@ -78,37 +71,40 @@ const ScheduleTable = ({ mode }) => {
             const schData = character.schedule[`${mode}`][schIdx];
 
             schData.done === schData.checkCount
-              ? isCharacterDoneArr.push('y')
-              : isCharacterDoneArr.push('n');
+              ? characterScheduleData.push('y')
+              : characterScheduleData.push('n');
           } else {
-            isCharacterDoneArr.push('n');
+            characterScheduleData.push('n');
           }
         } else {
-          isCharacterDoneArr.push('n');
+          characterScheduleData.push('n');
         }
       });
 
-      tdData.push(isCharacterDoneArr);
+      tdData.push(characterScheduleData);
     });
 
-    setCharacterList(thData);
-    setScheduleTableData(tdData);
+    setTdScheduleData(tdData);
   }, []);
 
   return (
     <Table variant="simple">
       <Thead>
         <Tr>
-          <Th></Th>
-          {characterList.map((character) => {
-            return <ScheduleTh key={character.key} character={character} />;
-          })}
+          <Th w="15%"></Th>
+          {scheduleList.length > 0
+            ? scheduleList.map((schedule) => {
+                return <ScheduleTh key={schedule.key} schedule={schedule} />;
+              })
+            : null}
         </Tr>
       </Thead>
       <Tbody>
-        {scheduleTableData.length > 0
-          ? scheduleTableData.map((schedule) => {
-              return <ScheduleTr key={schedule[0].key} schedule={schedule} />;
+        {tdScheduleData.length > 0
+          ? tdScheduleData.map((tdSchedule) => {
+              return (
+                <ScheduleTr key={tdSchedule[0].key} schedule={tdSchedule} />
+              );
             })
           : null}
       </Tbody>

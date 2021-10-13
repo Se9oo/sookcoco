@@ -14,11 +14,11 @@ const ScheduleTr = ({ schedule }) => {
           <Avatar
             size="sm"
             src={schedule[0].src}
-            name={schedule[0].key}
+            name={schedule[0].name}
             bg="transparent"
             mb="5px"
           />
-          <Text>{schedule[0].kor}</Text>
+          <Text>{schedule[0].name}</Text>
         </Flex>
       </Td>
       {schedule.map((sch, idx) => {
