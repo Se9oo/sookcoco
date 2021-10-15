@@ -7,10 +7,14 @@ import {
   TabPanels,
   Tabs,
   Heading,
+  Flex,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useBreakpointValue } from '@chakra-ui/media-query';
 
 import ScheduleList from './ScheduleList';
+import ScheduleTableModal from './Modal/ScheduleTableModal';
 
 const Schedule = ({ selectCharacter, schedule }) => {
   const mode = ['daily', 'weekly', 'expedition'];
@@ -37,11 +41,30 @@ const Schedule = ({ selectCharacter, schedule }) => {
     lg: 'md',
   });
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <section>
-      <Heading p="5px" mb="10px" as="h2" size={headingSize}>
-        스케줄
-      </Heading>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        p="5px"
+        mb="10px"
+      >
+        <Heading p="5px" mb="10px" as="h2" size={headingSize}>
+          스케줄
+        </Heading>
+        <Button
+          bg="green.500"
+          color="white"
+          boxShadow="sm"
+          size={headingSize}
+          fontSize={headingSize}
+          onClick={onOpen}
+        >
+          전체 스케줄 현황
+        </Button>
+      </Flex>
       <Tabs
         isFitted
         variant="enclosed"
@@ -104,6 +127,7 @@ const Schedule = ({ selectCharacter, schedule }) => {
           ;
         </TabPanels>
       </Tabs>
+      <ScheduleTableModal open={isOpen} close={onClose} />
     </section>
   );
 };
