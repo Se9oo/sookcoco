@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Modal,
@@ -8,6 +8,7 @@ import {
   ModalCloseButton,
   ModalBody,
   Flex,
+  Text,
   Image,
   Heading,
   useBreakpointValue,
@@ -31,6 +32,17 @@ const ScheduleTableModal = ({ open, close }) => {
     md: '10px',
     lg: '10px',
   });
+
+  const [characterCount, setCharacterCount] = useState(0);
+
+  // 캐릭터 존재 여부 체크
+  useEffect(() => {
+    const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
+
+    if (origin.hasOwnProperty('characters')) {
+      setCharacterCount(origin.characters.length);
+    }
+  }, [open]);
 
   return (
     <>
@@ -68,7 +80,29 @@ const ScheduleTableModal = ({ open, close }) => {
               },
             }}
           >
-            <ScheduleTableTabs />
+            {characterCount === 0 ? (
+              <Flex
+                h="300px"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="lg"
+                bgColor="gray.50"
+              >
+                <Flex alignItems="center">
+                  <Image
+                    w="24px"
+                    mr="3px"
+                    src="/sookcoco-logo-mini.png"
+                    alt="logo"
+                  />
+                  <Text pt="3px" color={'rgba(0,0,0,0.4)'}>
+                    캐릭터를 추가해주세요!
+                  </Text>
+                </Flex>
+              </Flex>
+            ) : (
+              <ScheduleTableTabs />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>
