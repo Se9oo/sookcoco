@@ -38,7 +38,7 @@
 <details>
   <summary><strong>✨2021.10.15 (New!!)</strong></summary>
     
-### 전체 스케줄 현황
+### 전체 스케줄 현황 메뉴 추가
 ![11 전체스케줄현황](https://user-images.githubusercontent.com/39517335/137449535-2926c7a2-616a-45ae-9388-42c1fbfb52b8.gif)
 - 캐릭터들의 숙제 현황을 한눈에 확인 할 수 있습니다.
 - 커스텀 컨텐츠를 제외한 공통 컨텐츠 현황만 제공합니다.
