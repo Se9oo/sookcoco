@@ -136,7 +136,7 @@ const Sookcoco = () => {
         if (origin.hasOwnProperty('expedition')) {
           if (origin.expedition.length > 0) {
             origin.expedition.map((exp) => {
-              if (exp.repeat === 'week') {
+              if (exp.repeat === 'weekly') {
                 exp.done = 0;
               }
             });
