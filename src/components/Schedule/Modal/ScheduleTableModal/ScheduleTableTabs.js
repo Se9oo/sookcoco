@@ -24,6 +24,7 @@ const ScheduleTableTabs = () => {
 
   return (
     <Tabs
+      defaultIndex={1} // 주간 컨텐츠가 default
       colorScheme="green"
       isFitted
       variant="enclosed"
