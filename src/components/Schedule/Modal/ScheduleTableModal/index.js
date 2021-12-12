@@ -39,7 +39,7 @@ const ScheduleTableModal = ({ open, close }) => {
   useEffect(() => {
     const origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    if (origin.hasOwnProperty('characters')) {
+    if (origin !== null && origin.hasOwnProperty('characters')) {
       setCharacterCount(origin.characters.length);
     }
   }, [open]);
