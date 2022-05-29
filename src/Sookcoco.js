@@ -2,161 +2,38 @@ import React, { useEffect, useState } from 'react';
 
 import { ChakraProvider, Box, Divider } from '@chakra-ui/react';
 
-import dayjs from 'dayjs';
-
 import { theme } from './common/theme';
 import Fonts from './common/fonts';
-import { schedule as commonSchedule } from './common/common';
+import { helpMessage } from './common/messages';
 
 import Header from './components/Header';
 import CharacterList from './components/Character/CharacterList';
 import Schedule from './components/Schedule';
+import Alert from './components/Alert';
+
+import { initSookcoco, setSookcocoRefreshData } from './logic/main';
 
 const Sookcoco = () => {
   const [selectCharacter, setSelectCharacter] = useState(-1);
   const [schedule, setSchedule] = useState({});
 
+  // alert state
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   // localStorage 스케줄 관련
   useEffect(() => {
     let origin = JSON.parse(window.localStorage.getItem('sookcoco'));
 
-    const now = dayjs().format('YYYYMMDDHHmm');
-    // 로요일과 차이
-    const diffDate = 3 - dayjs(now).day();
-    let refreshDate;
-    let refreshWeek;
-
     // sookcoco key가 없다면 기초 데이터 생성
     if (!origin) {
-      origin = {};
-      origin.characters = [];
-      origin.expedition = commonSchedule.expedition;
-
-      // 새벽시간대
-      if (
-        parseInt(now) >= parseInt(dayjs(now).format('YYYYMMDD0000')) &&
-        parseInt(now) < parseInt(dayjs(now).format('YYYYMMDD0600'))
-      ) {
-        origin.refreshDate = dayjs(now).format('YYYYMMDD0600');
-      } else {
-        origin.refreshDate = dayjs(now).add(1, 'day').format('YYYYMMDD0600');
-      }
-
-      if (diffDate > 0) {
-        origin.refreshWeek = dayjs(now)
-          .add(diffDate, 'day')
-          .format('YYYYMMDD0600');
-      } else if (diffDate === 0) {
-        // 새벽시간대
-        if (
-          parseInt(now) >= parseInt(dayjs(now).format('YYYYMMDD0000')) &&
-          parseInt(now) < parseInt(dayjs(now).format('YYYYMMDD0600'))
-        ) {
-          origin.refreshWeek = dayjs(now).format('YYYYMMDD0600');
-        } else {
-          origin.refreshWeek = dayjs(now)
-            .add(diffDate, 'day')
-            .add(1, 'week')
-            .format('YYYYMMDD0600');
-        }
-      } else {
-        origin.refreshWeek = dayjs(now)
-          .add(diffDate, 'day')
-          .add(1, 'week')
-          .format('YYYYMMDD0600');
-      }
+      // 도움말 alert 노출
+      setIsAlertOpen(true);
+      // 숙코코 기초 데이터 생성
+      initSookcoco(origin);
     } else {
-      // 원정대 스케줄 없는 경우 공통 원정대 정보 추가
-      if (!origin.hasOwnProperty('expedition')) {
-        origin.expedition = commonSchedule.expedition;
-        window.localStorage.setItem('sookcoco', JSON.stringify(origin));
-      } else {
-        // 공통 원정대 컨텐츠가 추가 제거될 경우 update 로직
-        // 커스텀 컨텐츠를 제외한 공통 원정대 컨텐츠
-        const orgExpExceptCustom = origin.expedition.filter(
-          (exp) => exp.custom !== 'y'
-        );
-
-        if (orgExpExceptCustom.length !== commonSchedule.expedition.length) {
-          const customExpContent = origin.expedition.filter(
-            (exp) => exp.custom === 'y'
-          );
-
-          if (customExpContent.length === 0) {
-            origin.expedition = commonSchedule.expedition;
-          } else {
-            origin.expedition = [
-              ...commonSchedule.expedition,
-              ...customExpContent,
-            ];
-          }
-          window.localStorage.setItem('sookcoco', JSON.stringify(origin));
-        }
-      }
-
-      // 일일 컨텐츠 초기화 날짜 세팅
-      refreshDate = origin.refreshDate;
-      refreshWeek = origin.refreshWeek;
-
-      // 일일 스케줄 초기화
-      if (parseInt(now) >= parseInt(refreshDate)) {
-        origin.characters.map((character) => {
-          if (character.hasOwnProperty('schedule')) {
-            character.schedule.daily.length > 0 &&
-              character.schedule.daily.map((day) => {
-                day.done = 0;
-              });
-          }
-        });
-
-        // 원정대-일일 스케줄 초기화
-        if (origin.expedition.length > 0) {
-          origin.expedition.map((exp) => {
-            if (exp.repeat === 'daily') {
-              exp.done = 0;
-            }
-          });
-        }
-
-        origin.refreshDate = dayjs(now).add(1, 'day').format('YYYYMMDD0600');
-      }
-
-      // 주간, 원정대 스케줄 초기화
-      if (parseInt(now) >= parseInt(refreshWeek)) {
-        origin.characters.map((character) => {
-          if (character.hasOwnProperty('schedule')) {
-            character.schedule.weekly.length > 0 &&
-              character.schedule.weekly.map((week) => {
-                week.done = 0;
-              });
-          }
-        });
-
-        // 원정대-주간 스케줄 초기화
-        if (origin.hasOwnProperty('expedition')) {
-          if (origin.expedition.length > 0) {
-            origin.expedition.map((exp) => {
-              if (exp.repeat === 'weekly') {
-                exp.done = 0;
-              }
-            });
-          }
-        }
-
-        if (diffDate > 0) {
-          origin.refreshWeek = dayjs(now)
-            .add(diffDate, 'day')
-            .format('YYYYMMDD0600');
-        } else {
-          origin.refreshWeek = dayjs(now)
-            .add(diffDate, 'day')
-            .add(1, 'week')
-            .format('YYYYMMDD0600');
-        }
-      }
+      // 일간/주간 컨텐츠 데이터 초기화
+      setSookcocoRefreshData(origin);
     }
-
-    window.localStorage.setItem('sookcoco', JSON.stringify(origin));
   }, []);
 
   // 캐릭터 선택 이벤트
@@ -209,6 +86,13 @@ const Sookcoco = () => {
           <Divider m="10px 0" />
           <Schedule selectCharacter={selectCharacter} schedule={schedule} />
         </Box>
+        <Alert
+          isOpen={isAlertOpen}
+          setIsOpen={setIsAlertOpen}
+          title="도움말"
+          message={helpMessage}
+          buttonActionText=""
+        />
       </ChakraProvider>
     </>
   );
