@@ -22,11 +22,20 @@ import {
   RepeatClockIcon,
   DeleteIcon,
   RepeatIcon,
+  StarIcon,
 } from '@chakra-ui/icons';
 
 import { encrypt, decrypt } from '../../common/crypto';
 import useInput from '../../hooks/useInput';
-import { schedule as commonSchedule } from '../../common/common';
+import { demoLocalData, schedule as commonSchedule } from '../../common/common';
+import {
+  backUpDataMessage,
+  clearDataMessage,
+  demoDataMessage,
+  loadDataFailMessage,
+  loadDataMessage,
+  updateContentMessage,
+} from '../../common/messages';
 
 import Alert from '../Alert';
 import DataManageHelp from './DataManageHelp';
@@ -78,16 +87,6 @@ const DataManage = ({ isOpen, onClose }) => {
     md: 'sm',
     lg: 'sm',
   });
-
-  // message
-  const backUpDataMessage = '클립보드 복사 완료';
-  const loadDataMessage =
-    '데이터 불러오기 완료\n닫기를 누르면 페이지가 새로고침 됩니다.';
-  const loadDataFailMessage = '데이터 불러오기 실패';
-  const clearDataMessage =
-    '초기화 된 데이터는 복구 할 수 없습니다.\n초기화 하시겠습니까?';
-  const updateContentMessage =
-    '컨텐츠를 최신 정보로 반영합니다.\n업데이트를 누르면 페이지가 새로고침 됩니다.';
 
   // alert state
   const [alertMode, setAlertMode] = useState('');
@@ -210,6 +209,14 @@ const DataManage = ({ isOpen, onClose }) => {
     window.location.reload();
   };
 
+  // 데모 데이터 적용하기
+  const onClickDemoData = () => {
+    const demoData = demoLocalData;
+    window.localStorage.setItem('sookcoco', JSON.stringify(demoData));
+
+    window.location.reload();
+  };
+
   return (
     <>
       <Drawer placement={DrawerDirection} onClose={onClose} isOpen={isOpen}>
@@ -279,6 +286,17 @@ const DataManage = ({ isOpen, onClose }) => {
               >
                 데이터 초기화
               </Button>
+              <Button
+                w="100%"
+                size={size}
+                mb="10px"
+                leftIcon={<StarIcon />}
+                bg="purple.500"
+                color="white"
+                onClick={() => onAlertOpen('demo')}
+              >
+                데모 데이터 적용
+              </Button>
             </Box>
             <Heading as="h3" size={headingSize} mb="10px">
               도움말
@@ -300,6 +318,8 @@ const DataManage = ({ isOpen, onClose }) => {
             ? '데이터 백업'
             : alertMode === 'update'
             ? '컨텐츠 업데이트'
+            : alertMode === 'demo'
+            ? '데모 데이터 적용'
             : '데이터 불러오기'
         }
         message={
@@ -311,6 +331,8 @@ const DataManage = ({ isOpen, onClose }) => {
             ? loadDataFailMessage
             : alertMode === 'update'
             ? updateContentMessage
+            : alertMode === 'demo'
+            ? demoDataMessage
             : loadDataMessage
         }
         buttonActionText={
@@ -318,6 +340,8 @@ const DataManage = ({ isOpen, onClose }) => {
             ? '초기화'
             : alertMode === 'update'
             ? '업데이트'
+            : alertMode === 'demo'
+            ? '적용'
             : ''
         }
         onClickAction={
@@ -327,6 +351,8 @@ const DataManage = ({ isOpen, onClose }) => {
             ? onClickInitialize
             : alertMode === 'update'
             ? onClickUpdateContent
+            : alertMode === 'demo'
+            ? onClickDemoData
             : null
         }
         alertMode={alertMode}

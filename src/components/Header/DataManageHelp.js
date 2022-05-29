@@ -106,6 +106,32 @@ const DataManageHelp = () => {
           </UnorderedList>
         </AccordionPanel>
       </AccordionItem>
+      <AccordionItem>
+        <h2>
+          <AccordionButton _expanded={{ bg: 'gray.100' }}>
+            <Box
+              fontSize={menuSize}
+              fontWeight="bold"
+              flex="1"
+              textAlign="left"
+            >
+              데모 데이터 적용
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel fontSize={textSize}>
+          <UnorderedList>
+            <ListItem mb="10px">
+              숙코코를 간단히 사용해 볼 수 있는 데모 데이터를 적용 합니다.
+            </ListItem>
+            <ListItem mb="10px">
+              데모 데이터를 적용하면 기존 데이터는 덮어씌워지므로 백업 후 적용을
+              권장합니다.
+            </ListItem>
+          </UnorderedList>
+        </AccordionPanel>
+      </AccordionItem>
     </Accordion>
   );
 };
