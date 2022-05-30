@@ -25,6 +25,8 @@ import {
   StarIcon,
 } from '@chakra-ui/icons';
 
+import dayjs from 'dayjs';
+
 import { encrypt, decrypt } from '../../common/crypto';
 import useInput from '../../hooks/useInput';
 import { demoLocalData, schedule as commonSchedule } from '../../common/common';
@@ -211,7 +213,26 @@ const DataManage = ({ isOpen, onClose }) => {
 
   // 데모 데이터 적용하기
   const onClickDemoData = () => {
+    // demo data
     const demoData = demoLocalData;
+    // 현재 시각
+    const now = dayjs().format('YYYYMMDDHHmm');
+    // 로요일과 날짜 차이
+    const diffDate = 3 - dayjs(now).day();
+
+    // 데모 데이터 적용 후 컨텐츠 초기화되지 않도록 초기화 날짜 설정
+    demoData.refreshDate = dayjs(now).add(1, 'day').format('YYYYMMDD0600');
+    if (diffDate > 0) {
+      demoData.refreshWeek = dayjs(now)
+        .add(diffDate, 'day')
+        .format('YYYYMMDD0600');
+    } else {
+      demoData.refreshWeek = dayjs(now)
+        .add(diffDate, 'day')
+        .add(1, 'week')
+        .format('YYYYMMDD0600');
+    }
+
     window.localStorage.setItem('sookcoco', JSON.stringify(demoData));
 
     window.location.reload();
